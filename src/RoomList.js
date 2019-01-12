@@ -14,15 +14,20 @@ class RoomList extends React.Component {
 
   componentDidMount() {
     this.roomsRef.on('child_added', snapshot => {
-      console.log(snapshot);
+      const room = snapshot.val();
+      room.key = snapshot.key;
+      this.setState({ rooms: this.state.rooms.concat( room ) })
     });
   }
 
-  // render() {
-  //   return(
-  //
-  //   );
-  // }
-}
+  render() {
+    return(
+    <div>
+      {this.state.rooms.map((room, i) => (
+        <p key={i}>Room name: {room.name}</p>
+    ))}
+    </div>);
+  }
+};
 
 export default RoomList;
