@@ -11,6 +11,7 @@ class MessageList extends React.Component {
     };
     // change to messages ref
     this.messagesRef = this.props.firebase.database().ref("messages");
+    this.roomsRef = this.props.firebase.database().ref("rooms");
   }
 
   //update for messages
@@ -26,7 +27,7 @@ class MessageList extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+        <div>
         <div className="activeRoom">The active room is: {this.props.activeRoom}</div>
         {this.state.messages.map((message, i) => (
           <div className="messages">
@@ -35,7 +36,7 @@ class MessageList extends React.Component {
             <p key={i}>Room Id: {message.roomId}</p>
           </div>
         ))};
-      </React.Fragment>
+        </div>
     )
   }
 }
