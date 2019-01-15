@@ -29,11 +29,13 @@ class MessageList extends React.Component {
     return (
       <React.Fragment>
         <div className="activeRoom">The active room is: {this.props.activeRoom}</div>
-        {this.state.messages.filter(message => message.key === this.props.activeRoomId).map((message, i) =>
+        {this.state.messages.filter(message => message.roomId === this.props.activeRoomId).map((message, i) =>
         <div>
           <p key={i}>Message {i + 1}</p>
           <p key={i}>Message text: {message.content}</p>
           <p key={i}>Room Id: {message.roomId}</p>
+          <p key={i}>Username: {message.username}</p>
+          <p key={i}>Room Id: {message.sentAt}</p>
         </div>
       )};
      </React.Fragment>
