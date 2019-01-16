@@ -13,12 +13,12 @@ class User extends React.Component {
     });
   }
 
-  signInWithPopup() {
+  signInWithPopup = () => {
     const provider = new this.props.firebase.auth.GoogleAuthProvider();
     this.props.firebase.auth().signInWithPopup(provider);
   }
 
-  signOutWithPopup() {
+  signOutWithPopup = () => {
     this.props.firebase.auth().signOut();
   }
 
