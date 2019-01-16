@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import App from "./../App";
 import styles from "./../styles/RoomList.css";
 
-
 class RoomList extends React.Component {
   constructor(props) {
     super(props);
@@ -52,9 +51,7 @@ class RoomList extends React.Component {
         <div className="available-rooms">
           {this.state.rooms.map((room, i) => (
             <a>
-              <p key={i} onClick={() =>
-                this.props.setActiveRoom(room)
-              }>
+              <p key={i} onClick={() => this.props.setActiveRoom(room.name)}>
                 Room name: {room.name}
               </p>
             </a>
