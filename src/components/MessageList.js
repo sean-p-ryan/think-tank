@@ -25,7 +25,6 @@ class MessageList extends React.Component {
   }
 
   render() {
-    return (
       <React.Fragment>
         <div className="activeRoom">
           The active room is: {this.props.activeRoom}
@@ -44,6 +43,7 @@ class MessageList extends React.Component {
         ;
       </React.Fragment>
     );
+
   }
 }
 
