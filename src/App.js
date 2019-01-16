@@ -21,39 +21,46 @@ class App extends Component {
     super(props);
     this.state = {
       activeRoom: "not selected",
-      activeRoomId: ""
+      activeRoomId: "",
+      currentUser: "No user is signed in."
     };
   }
 
   setActiveRoom = (selectedRoom) => {
     this.setState({ activeRoom: selectedRoom.name });
-    this.setState({ activeRoomId: selectedRoom.key })
-  }
+    this.setState({ activeRoomId: selectedRoom.key });
+  };
 
-  setUser () {
-
+  setUser = (user) => {
+    this.setState({ currentUser: user.displayName });
   }
 
   render() {
     return (
+      <React.Fragment>
       <div className="App">
-      <div className="available-rooms">Available Rooms</div>
+        <div className="available-rooms">Available Rooms</div>
         <div className="room-list">
           <RoomList
             setActiveRoom={this.setActiveRoom}
             activeRoom={this.state.activeRoom}
-            firebase={firebase} />
+            firebase={firebase}
+          />
         </div>
         <div className="message-list">
           <MessageList
             activeRoom={this.state.activeRoom}
             activeRoomId={this.state.activeRoomId}
-            firebase={firebase} />
-            <User
             firebase={firebase}
-            awetUser={this.setUser}/>
+          />
+          <User
+            firebase={firebase}
+            setUser={this.setUser}
+            user={this.state.currentUser}
+          />
         </div>
       </div>
+      </React.Fragment>
     );
   }
 }

@@ -7,24 +7,25 @@ class User extends React.Component {
     this.state = {};
   }
 
-  componentDidMount () {
+  componentDidMount = () => {
     this.props.firebase.auth().onAuthStateChanged(user => {
       this.props.setUser(user);
     });
   }
 
-  signInWithPopup() {
+  signInWithPopup = () => {
     const provider = new this.props.firebase.auth.GoogleAuthProvider();
     this.props.firebase.auth().signInWithPopup(provider);
   }
 
-  signOutWithPopup() {
+  signOutWithPopup = () => {
     this.props.firebase.auth().signOut();
   }
 
   render() {
     return (
       <div>
+        <div>Current User: {this.props.user}</div>
         <button type="submit" onClick={this.signInWithPopup}>
           Sign In
         </button>

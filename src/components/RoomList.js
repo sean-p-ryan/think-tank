@@ -51,7 +51,7 @@ class RoomList extends React.Component {
         <div className="available-rooms">
           {this.state.rooms.map((room, i) => (
             <a>
-              <p key={i} onClick={() => this.props.setActiveRoom(room.name)}>
+              <p key={i} onClick={() => this.props.setActiveRoom(room)}>
                 Room name: {room.name}
               </p>
             </a>
