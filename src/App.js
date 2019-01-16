@@ -27,33 +27,31 @@ class App extends Component {
 
   setActiveRoom = (selectedRoom) => {
     this.setState({ activeRoom: selectedRoom.name });
-    this.setState({ activeRoomId: selectedRoom.key })
-  }
-
-  setUser () {
-
-  }
+    this.setState({ activeRoomId: selectedRoom.key });
+  };
 
   render() {
     return (
+      <React.Fragment>
       <div className="App">
-      <div className="available-rooms">Available Rooms</div>
+        <div className="available-rooms">Available Rooms</div>
         <div className="room-list">
           <RoomList
             setActiveRoom={this.setActiveRoom}
             activeRoom={this.state.activeRoom}
-            firebase={firebase} />
+            firebase={firebase}
+          />
         </div>
         <div className="message-list">
           <MessageList
             activeRoom={this.state.activeRoom}
             activeRoomId={this.state.activeRoomId}
-            firebase={firebase} />
-            <User
             firebase={firebase}
-            awetUser={this.setUser}/>
+          />
+          <User firebase={firebase} setUser={this.setUser} />
         </div>
       </div>
+      </React.Fragment>
     );
   }
 }
