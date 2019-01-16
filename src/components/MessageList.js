@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import App from "./../App";
-import styles from "./../styles/MessageList.css"
-
+import styles from "./../styles/MessageList.css";
 
 class MessageList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: [],
+      messages: []
     };
     // change to messages ref
     this.messagesRef = this.props.firebase.database().ref("messages");
@@ -26,18 +25,25 @@ class MessageList extends React.Component {
   }
 
   render() {
-    return (
-        <div>
-        <div className="activeRoom">The active room is: {this.props.activeRoom}</div>
-        {this.state.messages.map((message, i) => (
-          <div className="messages">
-            <p key={i}>Message {i + 1}</p>
-            <p key={i}>Message text: {message.content}</p>
-            <p key={i}>Room Id: {message.roomId}</p>
-          </div>
-        ))};
+      <React.Fragment>
+        <div className="activeRoom">
+          The active room is: {this.props.activeRoom}
         </div>
-    )
+        {this.state.messages
+          .filter(message => message.roomId === this.props.activeRoomId)
+          .map((message, i) => (
+            <div>
+              <p key={i}>Message {i + 1}</p>
+              <p key={i}>Message text: {message.content}</p>
+              <p key={i}>Room Id: {message.roomId}</p>
+              <p key={i}>Username: {message.username}</p>
+              <p key={i}>Room Id: {message.sentAt}</p>
+            </div>
+          ))}
+        ;
+      </React.Fragment>
+    );
+
   }
 }
 
