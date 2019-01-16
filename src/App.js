@@ -21,7 +21,8 @@ class App extends Component {
     super(props);
     this.state = {
       activeRoom: "not selected",
-      activeRoomId: ""
+      activeRoomId: "",
+      currentUser: "No user is signed in."
     };
   }
 
@@ -29,6 +30,10 @@ class App extends Component {
     this.setState({ activeRoom: selectedRoom.name });
     this.setState({ activeRoomId: selectedRoom.key });
   };
+
+  setUser = (user) => {
+    this.setState({ currentUser: user.displayName });
+  }
 
   render() {
     return (
@@ -48,7 +53,11 @@ class App extends Component {
             activeRoomId={this.state.activeRoomId}
             firebase={firebase}
           />
-          <User firebase={firebase} setUser={this.setUser} />
+          <User
+            firebase={firebase}
+            setUser={this.setUser}
+            user={this.state.currentUser}
+          />
         </div>
       </div>
       </React.Fragment>
