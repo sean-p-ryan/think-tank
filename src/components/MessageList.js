@@ -40,11 +40,11 @@ class MessageList extends React.Component {
               <p key={i}>Username: {message.username}</p>
               <p key={i}>Room Id: {message.sentAt}</p>
             </div>
-          ))}
-        ;
+          ))};
       </React.Fragment>
     );
   };
-  }
+};
+
 
 export default MessageList;
