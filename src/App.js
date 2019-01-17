@@ -21,40 +21,47 @@ class App extends Component {
     super(props);
     this.state = {
       activeRoom: "not selected",
-      activeRoomId: ""
+      activeRoomId: "",
+      currentUser: "No user is signed in."
     };
   }
 
-  setActiveRoom = (selectedRoom) => {
+  setActiveRoom = selectedRoom => {
     this.setState({ activeRoom: selectedRoom.name });
     this.setState({ activeRoomId: selectedRoom.key });
   };
 
-  setUser = () => {
-
-  }
+  setUser = user => {
+    this.setState({ currentUser: user.displayName });
+  };
 
   render() {
     return (
       <React.Fragment>
-      <div className="App">
-        <div className="available-rooms">Available Rooms</div>
-        <div className="room-list">
-          <RoomList
-            setActiveRoom={this.setActiveRoom}
-            activeRoom={this.state.activeRoom}
-            firebase={firebase}
-          />
+        <div className="App">
+          <div className="available-rooms">Available Rooms</div>
+          <div className="room-list">
+            <RoomList
+              setActiveRoom={this.setActiveRoom}
+              activeRoom={this.state.activeRoom}
+              firebase={firebase}
+            />
+          </div>
+          <div className="message-list">
+            <User
+              firebase={firebase}
+              setUser={this.setUser}
+              user={this.state.currentUser}
+            />
+            <MessageList
+              className="message-list"
+              activeRoom={this.state.activeRoom}
+              activeRoomId={this.state.activeRoomId}
+              currentUser={this.state.currentUser}
+              firebase={firebase}
+            />
+          </div>
         </div>
-        <div className="message-list">
-          <MessageList
-            activeRoom={this.state.activeRoom}
-            activeRoomId={this.state.activeRoomId}
-            firebase={firebase}
-          />
-          <User firebase={firebase} setUser={this.setUser} />
-        </div>
-      </div>
       </React.Fragment>
     );
   }
