@@ -8,7 +8,7 @@ class RoomList extends React.Component {
     this.state = {
       rooms: [],
       newRoomName: "",
-      roomId: ""
+      roomId: "",
     };
     this.roomsRef = this.props.firebase.database().ref("rooms");
   }
@@ -32,6 +32,7 @@ class RoomList extends React.Component {
         rooms: this.state.rooms.filter(room => room.key !== snapshot.key)
       });
     });
+    console.log(this.roomsRef);
   }
 
   createRooms(newRoomName) {
@@ -39,6 +40,10 @@ class RoomList extends React.Component {
       name: newRoomName
     });
   }
+
+  // deleteRoom = (e) => {
+  //   room.remove();
+  // }
 
   handleChange(e) {
     this.setState({ newRoomName: e.target.value });
@@ -54,6 +59,11 @@ class RoomList extends React.Component {
               <p key={i} onClick={() => this.props.setActiveRoom(room)}>
                 Room name: {room.name}
               </p>
+              <input
+                className="delete-room"
+                type="button"
+                value="Delete this room">
+              </input>
             </a>
           ))}
         </div>
