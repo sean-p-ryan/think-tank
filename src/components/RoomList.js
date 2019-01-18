@@ -41,13 +41,15 @@ class RoomList extends React.Component {
     });
   }
 
-  // deleteRoom = (e) => {
-  //   room.remove();
-  // }
+  deleteRoom = (index) => {
+    console.log("Delete Room Triggered")
+    console.log(index)
+    const newRoomsArray = this.state.rooms.splice(index)
+    this.setState({ rooms: newRoomsArray })
+  }
 
   handleChange(e) {
     this.setState({ newRoomName: e.target.value });
-    // this.setState( {roomId:  })
   }
 
   render() {
@@ -62,7 +64,8 @@ class RoomList extends React.Component {
               <input
                 className="delete-room"
                 type="button"
-                value="Delete this room">
+                value="Delete this room"
+                onClick={e => this.deleteRoom(i)}>
               </input>
             </a>
           ))}
