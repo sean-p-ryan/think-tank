@@ -8,7 +8,7 @@ class RoomList extends React.Component {
     this.state = {
       rooms: [],
       newRoomName: "",
-      roomId: "",
+      roomId: ""
     };
     this.roomsRef = this.props.firebase.database().ref("rooms");
   }
@@ -24,7 +24,7 @@ class RoomList extends React.Component {
       room.key = snapshot.key;
       this.setState({ rooms: this.state.rooms.concat(room) });
       if (this.state.rooms.length === 1) {
-        this.props.setRoom(room);
+        this.props.setActiveRoom(room);
       }
     });
     this.roomsRef.on("child_removed", snapshot => {
@@ -41,12 +41,17 @@ class RoomList extends React.Component {
     });
   }
 
-  deleteRoom = (index) => {
-    console.log("Delete Room Triggered")
-    console.log(index)
-    const newRoomsArray = this.state.rooms.splice(index)
-    this.setState({ rooms: newRoomsArray })
-  }
+  deleteRoom = roomName => {
+    console.log("Delete Room Triggered");
+    const newRoomsArray = [];
+    this.state.rooms.map((room, i) => {
+      if (room.key != roomName.key) {
+        newRoomsArray.push(room);
+      }
+    });
+    this.setState({ rooms: newRoomsArray });
+    console.log(this.state.rooms);
+  };
 
   handleChange(e) {
     this.setState({ newRoomName: e.target.value });
@@ -65,8 +70,8 @@ class RoomList extends React.Component {
                 className="delete-room"
                 type="button"
                 value="Delete this room"
-                onClick={e => this.deleteRoom(i)}>
-              </input>
+                onClick={e => this.deleteRoom(room)}
+              />
             </a>
           ))}
         </div>
