@@ -7,7 +7,7 @@ class MessageList extends React.Component {
     super(props);
     this.state = {
       messages: [],
-      newMessageText: ""
+      newMessageText: "test"
     };
     // change to messages ref
     this.messagesRef = this.props.firebase.database().ref("messages");
@@ -31,8 +31,9 @@ class MessageList extends React.Component {
 
   createMessage(newMessage) {
     this.messagesRef.push({
+      text: this.state.newMessageText,
       roomId: this.props.activeRoomId,
-      username: this.props.currentUser,
+      username: this.props.currentUser ? this.props.currentUser : "Guest",
       sendAt: this.props.firebase.database.ServerValue.TIMESTAMP
     });
   }
@@ -42,7 +43,7 @@ class MessageList extends React.Component {
       <React.Fragment>
         <div>
           <div className="activeRoom">
-            The active room is: {this.props.activeRoom}
+            {this.props.activeRoom != null ? "You are currently in " + this.props.activeRoom : "No room has been selected"}
           </div>
           <div>
             {this.state.messages
@@ -50,7 +51,7 @@ class MessageList extends React.Component {
               .map((message, i) => (
                 <div>
                   <p key={i}>Message {i + 1}</p>
-                  <p key={i}>Message text: {message.content}</p>
+                  <p key={i}>Message text: {message.text}</p>
                   <p key={i}>Room Id: {message.roomId}</p>
                   <p key={i}>Username: {message.username}</p>
                   <p key={i}>Room Id: {message.sentAt}</p>
@@ -66,9 +67,15 @@ class MessageList extends React.Component {
             }}
           >
             <div>
-              <input type="text" id="message-field" />
+              <input
+                type="text"
+                id="message-field"
+                value={this.state.newMessageText}
+                onChange={e => this.handleChange(e)} />
               <label for="message-field" />
-              <input type="submit" onChange={e => this.handleChange(e)} />
+              <input
+                type="submit"
+                />
             </div>
           </form>
         </div>

@@ -20,9 +20,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeRoom: "not selected",
-      activeRoomId: "",
-      currentUser: "No user is signed in."
+      activeRoom: null,
+      activeRoomId: "No room selected",
+      currentUser: "Guest"
     };
   }
 
