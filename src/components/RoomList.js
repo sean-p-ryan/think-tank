@@ -8,6 +8,7 @@ class RoomList extends React.Component {
     this.state = {
       rooms: [],
       newRoomName: "",
+      newRoomTopic: "",
       roomId: ""
     };
     this.roomsRef = this.props.firebase.database().ref("rooms");
@@ -35,10 +36,15 @@ class RoomList extends React.Component {
     console.log(this.roomsRef);
   }
 
-  createRooms(newRoomName) {
+  createRooms(newRoomName, newRoomTopic) {
     this.roomsRef.push({
-      name: newRoomName
+      name: newRoomName,
+      topic: newRoomTopic
     });
+    this.setState({
+      newRoomTopic: "",
+      newRoomName: ""
+    })
   }
 
   deleteRoom = roomName => {
@@ -51,10 +57,15 @@ class RoomList extends React.Component {
     });
     this.setState({ rooms: newRoomsArray });
     console.log(this.state.rooms);
+    delete this.roomsRef[roomName.key]
   };
 
-  handleChange(e) {
+  handleRoomNameChange(e) {
     this.setState({ newRoomName: e.target.value });
+  }
+
+  handleRoomTopicChange(e) {
+    this.setState({ newRoomTopic: e.target.value });
   }
 
   render() {
@@ -65,6 +76,9 @@ class RoomList extends React.Component {
             <a>
               <p key={i} onClick={() => this.props.setActiveRoom(room)}>
                 Room name: {room.name}
+              </p>
+              <p key={i}>
+                Room topic: {room.topic}
               </p>
               <input
                 className="delete-room"
@@ -81,17 +95,30 @@ class RoomList extends React.Component {
           <form
             onSubmit={e => {
               e.preventDefault();
-              this.createRooms(this.state.newRoomName);
+              this.createRooms(this.state.newRoomName, this.state.newRoomTopic);
             }}
           >
+          <div>
             <label for="roomName">Room Name: </label>
             <input
               type="text"
               id="roomName"
               value={this.state.newRoomName}
-              onChange={e => this.handleChange(e)}
+              onChange={e => this.handleRoomNameChange(e)}
             />
-            <input type="submit" />
+          </div>
+          <div>
+            <label for="roomTopic">Room Topic: </label>
+            <input
+              type="text"
+              id="roomTopic"
+              value={this.state.newRoomTopic}
+              onChange={e => this.handleRoomTopicChange(e)}
+            />
+            <input
+              type="submit"
+              value="Create room!"/>
+          </div>
           </form>
         </div>
       </React.Fragment>
