@@ -4,27 +4,58 @@ import App from "./../App";
 class User extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      allActiveUsers: [],
+    };
     this.userRef = this.props.firebase.database().ref("users");
   }
 
   componentDidMount = () => {
     this.props.firebase.auth().onAuthStateChanged(user => {
       this.props.setUser(user);
-      this.props.addActiveUser(user);
+      console.log(this.userRef.userId);
     });
+    this.userRef.on("child_added", snapshot => {
+        this.getUserData(snapshot);
+      });
+  };
+
+  getUserData = (snapshot) => {
+    var allUserData = [];
+    snapshot.forEach((childSnapshot, i) => {
+      var userId = snapshot.key;
+      var key = childSnapshot.key;
+      var childData = childSnapshot.val();
+      allUserData.push(key, childData)
+     });
+    allUserData.map(user => {
+      console.log("shitake" + user)
+    })
+    this.getActiveUsers(allUserData);
   }
+
+  getActiveUsers(users) {
+    var activeUsers = [];
+    for (var i = 0; i < users.length; i++) {
+      if (users[i] != "isOnline" || "userId" || true || false) {
+        activeUsers.push(users);
+      }
+    this.setState( { allActiveUsers: activeUsers } );
+  }
+}
 
   signInWithPopup = () => {
     const provider = new this.props.firebase.auth.GoogleAuthProvider();
     this.props.firebase.auth().signInWithPopup(provider);
-    const newActiveUser = this.props.user;
-    this.props.addActiveUser(newActiveUser)
-  }
+    this.userRef.push({
+      isOnline: true,
+      userId: this.props.user
+    });
+  };
 
   signOutWithPopup = () => {
     this.props.firebase.auth().signOut();
-  }
+  };
 
   render() {
     return (
@@ -36,13 +67,13 @@ class User extends React.Component {
         <button type="submit" onClick={this.signOutWithPopup}>
           Sign Out
         </button>
-        <div>Active users: {this.props.activeUsers.map(user => (
-            <p>{user}</p>
-          ))}
+        <div>Active users: {this.state.allActiveUsers.map(user =>
+          <p>{user}</p>
+        )}
         </div>
       </div>
     );
   }
-}
+};
 
 export default User;
