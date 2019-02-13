@@ -72,6 +72,8 @@ class RoomList extends React.Component {
     return (
       <React.Fragment>
         <div className="available-rooms">
+          <div className="rooms-header">Available Rooms</div>
+          <div className="room-container">
           {this.state.rooms.map((room, i) => (
             <a>
               <p key={i} onClick={() => this.props.setActiveRoom(room)}>
@@ -88,6 +90,7 @@ class RoomList extends React.Component {
               />
             </a>
           ))}
+        </div>
         </div>
 
         <div className="new-room-form">

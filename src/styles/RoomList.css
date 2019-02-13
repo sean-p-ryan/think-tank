@@ -1,7 +1,17 @@
+.new-room-form {
+  background: #696969;
+  height: 30vh;
+}
+
+h1 {
+  margin: 0;
+}
+
 .available-rooms {
   background: #778899;
 }
 
-.new-room-form {
-  background: #696969;
+.room-container {
+  height: 70vh;
+  overflow: auto;
 }

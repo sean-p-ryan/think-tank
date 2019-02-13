@@ -44,7 +44,6 @@ class App extends Component {
     return (
       <React.Fragment>
         <div className="App">
-          <div className="available-rooms">Available Rooms</div>
           <div className="room-list">
             <RoomList
               setActiveRoom={this.setActiveRoom}
@@ -52,7 +51,7 @@ class App extends Component {
               firebase={firebase}
             />
           </div>
-          <div className="message-list">
+          <div>
             <User
               firebase={firebase}
               setUser={this.setUser}
