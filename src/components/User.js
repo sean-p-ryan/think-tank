@@ -5,7 +5,7 @@ class User extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      allActiveUsers: [],
+      allActiveUsers: []
     };
     this.userRef = this.props.firebase.database().ref("users");
   }
@@ -16,33 +16,38 @@ class User extends React.Component {
       console.log(this.userRef.userId);
     });
     this.userRef.on("child_added", snapshot => {
-        this.getUserData(snapshot);
-      });
+      this.getUserData(snapshot);
+    });
   };
 
-  getUserData = (snapshot) => {
+  getUserData = snapshot => {
     var allUserData = [];
     snapshot.forEach((childSnapshot, i) => {
       var userId = snapshot.key;
       var key = childSnapshot.key;
       var childData = childSnapshot.val();
-      allUserData.push(key, childData)
-     });
-    allUserData.map(user => {
-      console.log("shitake" + user)
-    })
-    this.getActiveUsers(allUserData);
-  }
-
-  getActiveUsers(users) {
-    var activeUsers = [];
-    for (var i = 0; i < users.length; i++) {
-      if (users[i] != "isOnline" || "userId" || true || false) {
-        activeUsers.push(users);
+      console.log("abcd" + childData);
+      if (childData != true
+          && childData != false
+          && childData != "Guest") {
+          allUserData.push(childData);
       }
-    this.setState( { allActiveUsers: activeUsers } );
-  }
-}
+      this.setState({allActiveUsers: allUserData});
+
+    });
+    console.log("ppp" + this.state.allActiveUsers);
+  };
+  //
+  // getActiveUsers(users) {
+  //   var activeUsers = [];
+  //   for (var i = 0; i < users.length; i++) {
+  //     if (users[i] === true) {
+  //       activeUsers.push(users[5]);
+  //     }
+  //   }
+  //   this.setState({ allActiveUsers: activeUsers });
+  //   console.log("xyz" + this.state.allActiveUsers);
+  // }
 
   signInWithPopup = () => {
     const provider = new this.props.firebase.auth.GoogleAuthProvider();
@@ -67,13 +72,15 @@ class User extends React.Component {
         <button type="submit" onClick={this.signOutWithPopup}>
           Sign Out
         </button>
-        <div>Active users: {this.state.allActiveUsers.map(user =>
-          <p>{user}</p>
-        )}
+        <div>
+          Active users:{" "}
+          {this.state.allActiveUsers.map(user => (
+            <p>{user}</p>
+          ))}
         </div>
       </div>
     );
   }
-};
+}
 
 export default User;
