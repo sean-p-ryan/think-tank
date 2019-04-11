@@ -7,7 +7,7 @@ class MessageList extends React.Component {
     super(props);
     this.state = {
       messages: [],
-      newMessageText: "test"
+      newMessageText: ""
     };
     // change to messages ref
     this.messagesRef = this.props.firebase.database().ref("messages");
@@ -29,6 +29,18 @@ class MessageList extends React.Component {
     this.setState({ newMessageText: e.target.value });
   }
 
+  deleteMessage = (messageToDelete) => {
+    console.log("Delete Message Triggered");
+    const newMessagesArray = [];
+    this.state.messages.map((message, i) => {
+      if (message.key != messageToDelete.key) {
+        newMessagesArray.push(message);
+      }
+    });
+    this.setState({ messages: newMessagesArray });
+    console.log(this.state.rooms);
+  }
+
   createMessage(newMessage) {
     this.messagesRef.push({
       text: this.state.newMessageText,
@@ -36,6 +48,7 @@ class MessageList extends React.Component {
       username: this.props.currentUser ? this.props.currentUser : "Guest",
       sendAt: this.props.firebase.database.ServerValue.TIMESTAMP
     });
+    this.setState({ newMessageText: "" })
   }
 
   render() {
@@ -54,7 +67,13 @@ class MessageList extends React.Component {
                   <p key={i}>Message text: {message.text}</p>
                   <p key={i}>Room Id: {message.roomId}</p>
                   <p key={i}>Username: {message.username}</p>
-                  <p key={i}>Room Id: {message.sentAt}</p>
+
+                  <input
+                    className="delete-room"
+                    type="button"
+                    value="Delete message"
+                    onClick={e => this.deleteMessage(message)}
+                  />
                 </div>
               ))}
           </div>
@@ -75,7 +94,7 @@ class MessageList extends React.Component {
               <label for="message-field" />
               <input
                 type="submit"
-                />
+                value="Post Message"/>
             </div>
           </form>
         </div>

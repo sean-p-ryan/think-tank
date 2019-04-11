@@ -8,7 +8,8 @@ class RoomList extends React.Component {
     this.state = {
       rooms: [],
       newRoomName: "",
-      roomId: "",
+      newRoomTopic: "",
+      roomId: ""
     };
     this.roomsRef = this.props.firebase.database().ref("rooms");
   }
@@ -24,7 +25,7 @@ class RoomList extends React.Component {
       room.key = snapshot.key;
       this.setState({ rooms: this.state.rooms.concat(room) });
       if (this.state.rooms.length === 1) {
-        this.props.setRoom(room);
+        this.props.setActiveRoom(room);
       }
     });
     this.roomsRef.on("child_removed", snapshot => {
@@ -35,45 +36,70 @@ class RoomList extends React.Component {
     console.log(this.roomsRef);
   }
 
+<<<<<<< HEAD
   newMethod(room, snapshot) {
     room.key = snapshot.key;
     this.setState({ rooms: this.state.rooms.concat(room) });
   }
 
   createRooms(newRoomName) {
+=======
+  createRooms(newRoomName, newRoomTopic) {
+>>>>>>> d438756db2668357de65a55b38067f2fc7c009db
     this.roomsRef.push({
-      name: newRoomName
+      name: newRoomName,
+      topic: newRoomTopic
     });
+    this.setState({
+      newRoomTopic: "",
+      newRoomName: ""
+    })
   }
 
-  deleteRoom = (index) => {
-    console.log("Delete Room Triggered")
-    console.log(index)
-    const newRoomsArray = this.state.rooms.splice(index)
-    this.setState({ rooms: newRoomsArray })
-  }
+  deleteRoom = roomName => {
+    console.log("Delete Room Triggered");
+    const newRoomsArray = [];
+    this.state.rooms.map((room, i) => {
+      if (room.key != roomName.key) {
+        newRoomsArray.push(room);
+      }
+    });
+    this.setState({ rooms: newRoomsArray });
+    console.log(this.state.rooms);
+    delete this.roomsRef[roomName.key]
+  };
 
-  handleChange(e) {
+  handleRoomNameChange(e) {
     this.setState({ newRoomName: e.target.value });
+  }
+
+  handleRoomTopicChange(e) {
+    this.setState({ newRoomTopic: e.target.value });
   }
 
   render() {
     return (
       <React.Fragment>
         <div className="available-rooms">
+          <div className="rooms-header">Available Rooms</div>
+          <div className="room-container">
           {this.state.rooms.map((room, i) => (
             <a>
               <p key={i} onClick={() => this.props.setActiveRoom(room)}>
                 Room name: {room.name}
               </p>
+              <p key={i}>
+                Room topic: {room.topic}
+              </p>
               <input
                 className="delete-room"
                 type="button"
                 value="Delete this room"
-                onClick={e => this.deleteRoom(i)}>
-              </input>
+                onClick={e => this.deleteRoom(room)}
+              />
             </a>
           ))}
+        </div>
         </div>
 
         <div className="new-room-form">
@@ -81,17 +107,30 @@ class RoomList extends React.Component {
           <form
             onSubmit={e => {
               e.preventDefault();
-              this.createRooms(this.state.newRoomName);
+              this.createRooms(this.state.newRoomName, this.state.newRoomTopic);
             }}
           >
+          <div>
             <label for="roomName">Room Name: </label>
             <input
               type="text"
               id="roomName"
               value={this.state.newRoomName}
-              onChange={e => this.handleChange(e)}
+              onChange={e => this.handleRoomNameChange(e)}
             />
-            <input type="submit" />
+          </div>
+          <div>
+            <label for="roomTopic">Room Topic: </label>
+            <input
+              type="text"
+              id="roomTopic"
+              value={this.state.newRoomTopic}
+              onChange={e => this.handleRoomTopicChange(e)}
+            />
+            <input
+              type="submit"
+              value="Create room!"/>
+          </div>
           </form>
         </div>
       </React.Fragment>

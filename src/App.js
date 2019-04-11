@@ -22,7 +22,8 @@ class App extends Component {
     this.state = {
       activeRoom: null,
       activeRoomId: "No room selected",
-      currentUser: "Guest"
+      currentUser: "Guest",
+      activeUsers: []
     };
   }
 
@@ -35,11 +36,14 @@ class App extends Component {
     this.setState({ currentUser: user.displayName });
   };
 
+  addActiveUser = newUser => {
+    this.state.activeUsers.push(newUser.displayName);
+  }
+
   render() {
     return (
       <React.Fragment>
         <div className="App">
-          <div className="available-rooms">Available Rooms</div>
           <div className="room-list">
             <RoomList
               setActiveRoom={this.setActiveRoom}
@@ -47,11 +51,13 @@ class App extends Component {
               firebase={firebase}
             />
           </div>
-          <div className="message-list">
+          <div>
             <User
               firebase={firebase}
               setUser={this.setUser}
               user={this.state.currentUser}
+              activeUsers={this.state.activeUsers}
+              addActiveUser={this.addActiveUser}
             />
             <MessageList
               className="message-list"
