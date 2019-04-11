@@ -5,6 +5,8 @@ import * as firebase from "firebase";
 import RoomList from "./components/RoomList";
 import MessageList from "./components/MessageList";
 import User from "./components/User";
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+
 
 var config = {
   apiKey: "AIzaSyBdrQEg21qF0an-VLNHwhs7qhQ4sDWQKpU",

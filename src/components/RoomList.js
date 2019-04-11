@@ -18,7 +18,6 @@ class RoomList extends React.Component {
     this.roomsRef.on("child_added", snapshot => {
       const room = snapshot.val();
       console.log(snapshot);
-      this.newMethod(room, snapshot);
     });
     this.roomsRef.on("child_added", snapshot => {
       const room = snapshot.val();
@@ -33,19 +32,9 @@ class RoomList extends React.Component {
         rooms: this.state.rooms.filter(room => room.key !== snapshot.key)
       });
     });
-    console.log(this.roomsRef);
   }
 
-<<<<<<< HEAD
-  newMethod(room, snapshot) {
-    room.key = snapshot.key;
-    this.setState({ rooms: this.state.rooms.concat(room) });
-  }
-
-  createRooms(newRoomName) {
-=======
   createRooms(newRoomName, newRoomTopic) {
->>>>>>> d438756db2668357de65a55b38067f2fc7c009db
     this.roomsRef.push({
       name: newRoomName,
       topic: newRoomTopic
