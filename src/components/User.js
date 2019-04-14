@@ -37,17 +37,6 @@ class User extends React.Component {
     });
     console.log("ppp" + this.state.allActiveUsers);
   };
-  //
-  // getActiveUsers(users) {
-  //   var activeUsers = [];
-  //   for (var i = 0; i < users.length; i++) {
-  //     if (users[i] === true) {
-  //       activeUsers.push(users[5]);
-  //     }
-  //   }
-  //   this.setState({ allActiveUsers: activeUsers });
-  //   console.log("xyz" + this.state.allActiveUsers);
-  // }
 
   signInWithPopup = () => {
     const provider = new this.props.firebase.auth.GoogleAuthProvider();

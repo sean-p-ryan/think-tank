@@ -7,6 +7,10 @@
   overflow-y: hidden;
 }
 
+.user-view {
+  width: 100vw;
+}
+
 .rooms-header {
   font-size: 36px;
 }

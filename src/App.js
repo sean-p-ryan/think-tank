@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import "./styles/App.css";
 import * as firebase from "firebase";
 import RoomList from "./components/RoomList";
 import MessageList from "./components/MessageList";
@@ -16,6 +15,7 @@ var config = {
   storageBucket: "bloc-chat-react-3edc1.appspot.com",
   messagingSenderId: "314608865092"
 };
+
 firebase.initializeApp(config);
 
 class App extends Component {
@@ -25,9 +25,25 @@ class App extends Component {
       activeRoom: null,
       activeRoomId: "No room selected",
       currentUser: "Guest",
+      isSignedIn: false,
       activeUsers: []
     };
   }
+
+  uiConfig = {
+    signInFLow: "popup",
+    signInOptions: [
+      // Leave the lines as is for the providers you want to offer your users.
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      firebase.auth.GithubAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    ],
+    callbacks: {
+      signInSuccess: () => false
+    }
+  };
+
 
   setActiveRoom = selectedRoom => {
     this.setState({ activeRoom: selectedRoom.name });
@@ -42,37 +58,54 @@ class App extends Component {
     this.state.activeUsers.push(newUser.displayName);
   }
 
+  componentDidMount = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ isSignedIn: !!user })
+    })
+  }
+
   render() {
     return (
-      <React.Fragment>
         <div className="App">
-          <div className="room-list">
-            <RoomList
-              setActiveRoom={this.setActiveRoom}
-              activeRoom={this.state.activeRoom}
-              firebase={firebase}
-            />
-          </div>
-          <div>
-            <User
-              firebase={firebase}
-              setUser={this.setUser}
-              user={this.state.currentUser}
-              activeUsers={this.state.activeUsers}
-              addActiveUser={this.addActiveUser}
-            />
-            <MessageList
-              className="message-list"
-              activeRoom={this.state.activeRoom}
-              activeRoomId={this.state.activeRoomId}
-              currentUser={this.state.currentUser}
-              firebase={firebase}
-            />
-          </div>
+            {this.state.isSignedIn ? 
+              <div className="user-view">
+                <div className="room-list">
+                  <RoomList
+                    setActiveRoom={this.setActiveRoom}
+                    activeRoom={this.state.activeRoom}
+                    firebase={firebase}
+                  />
+                </div>
+                <div>
+                  <MessageList
+                    className="message-list"
+                    activeRoom={this.state.activeRoom}
+                    activeRoomId={this.state.activeRoomId}
+                    currentUser={this.state.currentUser}
+                    firebase={firebase}
+                  />
+                </div>
+                <div>
+                  <User
+                      firebase={firebase}
+                      setUser={this.setUser}
+                      user={this.state.currentUser}
+                      activeUsers={this.state.activeUsers}
+                      addActiveUser={this.addActiveUser}
+                    />
+                </div>
+              </div>
+              :
+                <div>
+                <StyledFirebaseAuth
+                uiConfig={this.uiConfig}
+                firebaseAuth={firebase.auth()}
+                />
+                </div>
+            }
         </div>
-      </React.Fragment>
-    );
-  }
-}
-
-export default App;
+        );
+      }
+    }
+    
+    export default App;

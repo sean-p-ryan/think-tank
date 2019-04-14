@@ -65,8 +65,8 @@ class MessageList extends React.Component {
                 <div>
                   <p key={i}>Message {i + 1}</p>
                   <p key={i}>Message text: {message.text}</p>
-                  <p key={i}>Room Id: {message.roomId}</p>
-                  <p key={i}>Username: {message.username}</p>
+                  {/* <p key={i}>Room Id: {message.roomId}</p>
+                  <p key={i}>Username: {message.username}</p> */}
 
                   <input
                     className="delete-room"
