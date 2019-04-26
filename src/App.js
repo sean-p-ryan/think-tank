@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import "./styles/App.css";
+import styles from "./styles/App.css";
+// import styles from "./styles/Auth.css";
 import * as firebase from "firebase";
 import RoomList from "./components/RoomList";
 import MessageList from "./components/MessageList";
 import User from "./components/User";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-
 
 var config = {
   apiKey: "AIzaSyBdrQEg21qF0an-VLNHwhs7qhQ4sDWQKpU",
@@ -66,46 +66,55 @@ class App extends Component {
 
   render() {
     return (
-        <div className="App">
-            {this.state.isSignedIn ? 
-              <div className="user-view">
-                <div className="room-list">
-                  <RoomList
-                    setActiveRoom={this.setActiveRoom}
-                    activeRoom={this.state.activeRoom}
-                    firebase={firebase}
-                  />
-                </div>
-                <div>
-                  <MessageList
-                    className="message-list"
-                    activeRoom={this.state.activeRoom}
-                    activeRoomId={this.state.activeRoomId}
-                    currentUser={this.state.currentUser}
-                    firebase={firebase}
-                  />
-                </div>
-                <div>
-                  <User
-                      firebase={firebase}
-                      setUser={this.setUser}
-                      user={this.state.currentUser}
-                      activeUsers={this.state.activeUsers}
-                      addActiveUser={this.addActiveUser}
-                    />
-                </div>
-              </div>
-              :
-                <div>
-                <StyledFirebaseAuth
-                uiConfig={this.uiConfig}
-                firebaseAuth={firebase.auth()}
+      <div className="App">
+        {this.state.isSignedIn ?
+          <div className="user-view">
+            <div className="rooms-and-messages">
+              <div className="room-list">
+                <RoomList
+                  setActiveRoom={this.setActiveRoom}
+                  activeRoom={this.state.activeRoom}
+                  firebase={firebase}
                 />
-                </div>
-            }
-        </div>
-        );
-      }
-    }
-    
-    export default App;
+              </div>
+              <div>
+                <MessageList
+                  className="message-list"
+                  activeRoom={this.state.activeRoom}
+                  activeRoomId={this.state.activeRoomId}
+                  currentUser={this.state.currentUser}
+                  firebase={firebase}
+                />
+              </div>
+            </div>
+            <div className="user-info">
+              <User
+                firebase={firebase}
+                setUser={this.setUser}
+                user={this.state.currentUser}
+                activeUsers={this.state.activeUsers}
+                addActiveUser={this.addActiveUser}
+              />
+            </div>
+          </div>
+          :
+          <div className="auth-screen" >
+            <div className="welcome">Welcome to Boggs Chat! The only chat app on the web dedicated
+              entirely to discussion about Hall of Fame 3rd baseman Wade Boggs. Please
+              provide a pint of your blood to proceed.
+            </div>
+            <div>
+            <StyledFirebaseAuth
+              uiConfig={this.uiConfig}
+              firebaseAuth={firebase.auth()}
+              className="firebase-auth"
+            />
+            </div>
+          </div>
+        }
+      </div>
+    );
+  }
+}
+
+export default App;

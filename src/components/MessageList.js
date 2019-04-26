@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import App from "./../App";
 import styles from "./../styles/MessageList.css";
+import Message from "./Message";
 
 class MessageList extends React.Component {
   constructor(props) {
@@ -17,8 +18,8 @@ class MessageList extends React.Component {
   //update for messages
 
   componentDidMount() {
+    const dataSnapshot = this.props.firebase.database().ref("rooms");
     this.messagesRef.on("child_added", snapshot => {
-      console.log(snapshot);
       const message = snapshot.val();
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat(message) });
@@ -52,30 +53,31 @@ class MessageList extends React.Component {
   }
 
   render() {
+    let listOfMessages;
+
+    if (this.state.messages) {
+      listOfMessages = this.state.messages
+        .filter(message => message.roomId === this.props.activeRoomId)
+        .map((message, i) => {
+          return (
+            <Message key={message.key}
+              onClick={this.deleteMessage}
+              text={message.text}
+              message={message}
+            />
+          );
+        })
+    };
+
     return (
+
       <React.Fragment>
         <div>
           <div className="activeRoom">
             {this.props.activeRoom != null ? "You are currently in " + this.props.activeRoom : "No room has been selected"}
           </div>
           <div>
-            {this.state.messages
-              .filter(message => message.roomId === this.props.activeRoomId)
-              .map((message, i) => (
-                <div>
-                  <p key={i}>Message {i + 1}</p>
-                  <p key={i}>Message text: {message.text}</p>
-                  {/* <p key={i}>Room Id: {message.roomId}</p>
-                  <p key={i}>Username: {message.username}</p> */}
-
-                  <input
-                    className="delete-room"
-                    type="button"
-                    value="Delete message"
-                    onClick={e => this.deleteMessage(message)}
-                  />
-                </div>
-              ))}
+            {/* {listOfMessages} */}
           </div>
         </div>
         <div className="message-field">
@@ -91,10 +93,10 @@ class MessageList extends React.Component {
                 id="message-field"
                 value={this.state.newMessageText}
                 onChange={e => this.handleChange(e)} />
-              <label for="message-field" />
+              <label htmlFor="message-field" />
               <input
                 type="submit"
-                value="Post Message"/>
+                value="Post Message" />
             </div>
           </form>
         </div>

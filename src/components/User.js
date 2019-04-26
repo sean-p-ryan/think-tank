@@ -26,7 +26,6 @@ class User extends React.Component {
       var userId = snapshot.key;
       var key = childSnapshot.key;
       var childData = childSnapshot.val();
-      console.log("abcd" + childData);
       if (childData != true
           && childData != false
           && childData != "Guest") {
@@ -35,7 +34,6 @@ class User extends React.Component {
       this.setState({allActiveUsers: allUserData});
 
     });
-    console.log("ppp" + this.state.allActiveUsers);
   };
 
   signInWithPopup = () => {

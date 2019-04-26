@@ -100,7 +100,7 @@ class RoomList extends React.Component {
             }}
           >
           <div>
-            <label for="roomName">Room Name: </label>
+            <label htmlFor="roomName">Room Name: </label>
             <input
               type="text"
               id="roomName"
@@ -109,7 +109,7 @@ class RoomList extends React.Component {
             />
           </div>
           <div>
-            <label for="roomTopic">Room Topic: </label>
+            <label htmlFor="roomTopic">Room Topic: </label>
             <input
               type="text"
               id="roomTopic"
