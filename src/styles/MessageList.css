@@ -1,6 +1,18 @@
-.messages {
-  background: yellow;
+.message-section-container{
+  display: flex;
+  flex-direction: column;
+  /* height: 100vh; */
 }
 
-.message-field {
+.list-of-messages{
+  background-color: green;
+  height: 70vh;
+  display: flex;
+  align-items: left;
 }
+
+.list-of-messages li {
+  list-style: none;
+  text-align: left;
+}
+

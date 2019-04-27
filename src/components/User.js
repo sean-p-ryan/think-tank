@@ -13,7 +13,6 @@ class User extends React.Component {
   componentDidMount = () => {
     this.props.firebase.auth().onAuthStateChanged(user => {
       this.props.setUser(user);
-      console.log(this.userRef.userId);
     });
     this.userRef.on("child_added", snapshot => {
       this.getUserData(snapshot);

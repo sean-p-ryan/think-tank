@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 
 const Message = (props) => {
+    
     return (
         <div>
         <p>Message </p>
-        <p>Message text: {props.message}}</p>
+        <p>Message text: {props.text}}</p>
         <input
           className="delete-room"
           type="button"

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styles from "./styles/App.css";
+import "./styles/App.css";
 // import styles from "./styles/Auth.css";
 import * as firebase from "firebase";
 import RoomList from "./components/RoomList";
@@ -69,7 +69,7 @@ class App extends Component {
       <div className="App">
         {this.state.isSignedIn ?
           <div className="user-view">
-            <div className="rooms-and-messages">
+            <div className="room-view">
               <div className="room-list">
                 <RoomList
                   setActiveRoom={this.setActiveRoom}
@@ -77,7 +77,18 @@ class App extends Component {
                   firebase={firebase}
                 />
               </div>
-              <div>
+            </div>
+            <div className="user-info-and-messages">
+              <div className="user-info">
+                <User
+                  firebase={firebase}
+                  setUser={this.setUser}
+                  user={this.state.currentUser}
+                  activeUsers={this.state.activeUsers}
+                  addActiveUser={this.addActiveUser}
+                />
+              </div>
+              <div className="message-list">
                 <MessageList
                   className="message-list"
                   activeRoom={this.state.activeRoom}
@@ -87,28 +98,21 @@ class App extends Component {
                 />
               </div>
             </div>
-            <div className="user-info">
-              <User
-                firebase={firebase}
-                setUser={this.setUser}
-                user={this.state.currentUser}
-                activeUsers={this.state.activeUsers}
-                addActiveUser={this.addActiveUser}
-              />
-            </div>
           </div>
           :
           <div className="auth-screen" >
-            <div className="welcome">Welcome to Boggs Chat! The only chat app on the web dedicated
-              entirely to discussion about Hall of Fame 3rd baseman Wade Boggs. Please
-              provide a pint of your blood to proceed.
+            <div className="auth-text-and-buttons">
+              <div className="welcome-text">Welcome to Boggs Chat! The only chat app on the web dedicated
+                entirely to discussion on Hall of Fame 3rd baseman Wade Boggs. Please
+                provide a pint of your blood to proceed.
             </div>
-            <div>
-            <StyledFirebaseAuth
-              uiConfig={this.uiConfig}
-              firebaseAuth={firebase.auth()}
-              className="firebase-auth"
-            />
+              <div>
+                <StyledFirebaseAuth
+                  uiConfig={this.uiConfig}
+                  firebaseAuth={firebase.auth()}
+                  className="firebase-auth"
+                />
+              </div>
             </div>
           </div>
         }

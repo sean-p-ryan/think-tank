@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import App from "./../App";
 import styles from "./../styles/RoomList.css";
 
+const uuidv1 = require('uuid/v1');
+
 class RoomList extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +19,6 @@ class RoomList extends React.Component {
   componentDidMount() {
     this.roomsRef.on("child_added", snapshot => {
       const room = snapshot.val();
-      console.log(snapshot);
     });
     this.roomsRef.on("child_added", snapshot => {
       const room = snapshot.val();
@@ -46,7 +47,6 @@ class RoomList extends React.Component {
   }
 
   deleteRoom = roomName => {
-    console.log("Delete Room Triggered");
     const newRoomsArray = [];
     this.state.rooms.map((room, i) => {
       if (room.key != roomName.key) {
@@ -54,7 +54,6 @@ class RoomList extends React.Component {
       }
     });
     this.setState({ rooms: newRoomsArray });
-    console.log(this.state.rooms);
     delete this.roomsRef[roomName.key]
   };
 
@@ -69,62 +68,65 @@ class RoomList extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="available-rooms">
-          <div className="rooms-header">Available Rooms</div>
-          <div className="room-container">
-          {this.state.rooms.map((room, i) => (
-            <a>
-              <p key={i} onClick={() => this.props.setActiveRoom(room)}>
-                Room name: {room.name}
-              </p>
-              <p key={i}>
-                Room topic: {room.topic}
-              </p>
-              <input
-                className="delete-room"
-                type="button"
-                value="Delete this room"
-                onClick={e => this.deleteRoom(room)}
-              />
-            </a>
-          ))}
-        </div>
-        </div>
+        <div className="room-view">
+          <div className="available-rooms">
+            <h1>Available Rooms</h1>
+            <div className="room-container">
+              {this.state.rooms.map((room, i) => (
+                <a>
+                  <p key={room.key} onClick={() => this.props.setActiveRoom(room)}>
+                    Room name: {room.name}
+                  </p>
+                  <p key={uuidv1()}>
+                    Room topic: {room.topic}
+                  </p>
+                  <input
+                    className="delete-room"
+                    type="button"
+                    value="Delete this room"
+                    onClick={e => this.deleteRoom(room)}
+                  />
+                </a>
+              ))
+              }
+            </div>
+          </div>
 
-        <div className="new-room-form">
-          <h1>Add a new chatroom!</h1>
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              this.createRooms(this.state.newRoomName, this.state.newRoomTopic);
-            }}
-          >
-          <div>
-            <label htmlFor="roomName">Room Name: </label>
-            <input
-              type="text"
-              id="roomName"
-              value={this.state.newRoomName}
-              onChange={e => this.handleRoomNameChange(e)}
-            />
+          <div className="new-room-form">
+            <h1>Add a new chatroom!</h1>
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                this.createRooms(this.state.newRoomName, this.state.newRoomTopic);
+              }}
+            >
+              <div>
+                <label htmlFor="roomName">Room Name: </label>
+                <input
+                  type="text"
+                  id="roomName"
+                  value={this.state.newRoomName}
+                  onChange={e => this.handleRoomNameChange(e)}
+                />
+              </div>
+              <div>
+                <label htmlFor="roomTopic">Room Topic: </label>
+                <input
+                  type="text"
+                  id="roomTopic"
+                  value={this.state.newRoomTopic}
+                  onChange={e => this.handleRoomTopicChange(e)}
+                />
+                <input
+                  type="submit"
+                  value="Create room!" />
+              </div>
+            </form>
           </div>
-          <div>
-            <label htmlFor="roomTopic">Room Topic: </label>
-            <input
-              type="text"
-              id="roomTopic"
-              value={this.state.newRoomTopic}
-              onChange={e => this.handleRoomTopicChange(e)}
-            />
-            <input
-              type="submit"
-              value="Create room!"/>
-          </div>
-          </form>
         </div>
       </React.Fragment>
-    );
+      );
+    }
   }
-}
-
-export default RoomList;
+  
+  export default RoomList;
