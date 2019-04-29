@@ -2,29 +2,30 @@ import React, { Component } from "react";
 import App from "./../App";
 import styles from "./../styles/MessageList.css";
 import Message from "./Message";
+import { throws } from "assert";
 
 class MessageList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       messages: [],
-      newMessageText: "",
-      activeRoomMessages: []
+      newMessageText: ""
     };
     // change to messages ref
-    this.messagesRef = this.props.firebase.database().ref("messages");
     this.roomsRef = this.props.firebase.database().ref("rooms");
   }
 
   componentDidMount() {
     const dataSnapshot = this.props.firebase.database().ref("rooms");
-    this.messagesRef.on("child_added", snapshot => {
+    this.props.messagesRef.on("child_added", snapshot => {
       const message = snapshot.val();
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat(message) });
     });
+    this.roomsRef.on("child_removed", () => {
+      this.getDeletedRoomMessages(this.props.deletedRoom);
+    })
     this.getActiveRoomMessages();
-    console.log(this.state.messages)
   }
 
   handleChange(e) {
@@ -32,16 +33,11 @@ class MessageList extends React.Component {
   }
 
   getActiveRoomMessages() {
-    let activeRoomMessages = [];
-    console.log(this.state.messages)
-    this.state.messages.map(message => {
-      // if (message.roomId === this.props.activeRoomId) {
-      //   activeRoomMessages.push(message);
-      // }
-      
-    })
-    // console.log("KABLAM" + message)
-    this.setState({activeRoomMessages: activeRoomMessages})
+    if (this.props.activeRoom != null) {
+      return this.state.messages
+        .filter(message => message.roomId === this.props.activeRoom.key)
+        .map(message => (<li>{message.text}</li>))
+    }
   }
 
   deleteMessage = (messageToDelete) => {
@@ -54,11 +50,30 @@ class MessageList extends React.Component {
     this.setState({ messages: newMessagesArray });
   }
 
+  getDeletedRoomMessages = (roomId) => {
+    // console.log("yaas");
+    console.log("HERE ARE ALL THE MESSAGES" + this.state.messages);
+
+
+    console.log("SHOULD BE DELETED ROOM ID" + roomId);
+    
+
+    this.state.messages.map(message => {
+      console.log("should be message roomId" + message.roomId);
+      if (message.roomId === roomId) {
+        this.deleteMessage(message);
+        console.log("Messages array should be shorter" + this.state.messages)
+        // console.log(this.state.messages)
+        //take deleted message out of DB
+      }
+    })
+  }
+
   //adding key values to each new message to be sent to database
   createMessage(newMessage) {
-    this.messagesRef.push({
+    this.props.messagesRef.push({
       text: this.state.newMessageText,
-      roomId: this.props.activeRoomId,
+      roomId: this.props.activeRoom.key,
       username: this.props.currentUser ? this.props.currentUser : "Guest",
       sendAt: this.props.firebase.database.ServerValue.TIMESTAMP
     });
@@ -66,21 +81,17 @@ class MessageList extends React.Component {
   }
 
   render() {
-
     return (
 
       <React.Fragment>
+
         <div className="message-section-container">
           <div className="active-room">
-            {this.props.activeRoom != null ? "You are currently in " + this.props.activeRoom : "No room has been selected"}
+            {this.props.activeRoom != null ? "You are currently in " + this.props.activeRoom.name : "No room has been selected"}
           </div>
           <div className="list-of-messages">
             <ul>
-              {
-                this.state.activeRoomMessages.map(message => {
-                  return <li key={message.key}>{message.text}</li>
-                })
-              }
+              {this.getActiveRoomMessages()}
             </ul>
           </div>
           <div className="message-field">

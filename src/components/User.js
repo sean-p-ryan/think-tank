@@ -8,6 +8,8 @@ class User extends React.Component {
       allActiveUsers: []
     };
     this.userRef = this.props.firebase.database().ref("users");
+    // this.messagesRef = this.props.firebase.database().ref("messages");
+    // this.roomsRef = this.props.firebase.database().ref("rooms");
   }
 
   componentDidMount = () => {

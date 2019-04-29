@@ -19,9 +19,6 @@ class RoomList extends React.Component {
   componentDidMount() {
     this.roomsRef.on("child_added", snapshot => {
       const room = snapshot.val();
-    });
-    this.roomsRef.on("child_added", snapshot => {
-      const room = snapshot.val();
       room.key = snapshot.key;
       this.setState({ rooms: this.state.rooms.concat(room) });
       if (this.state.rooms.length === 1) {
@@ -32,6 +29,8 @@ class RoomList extends React.Component {
       this.setState({
         rooms: this.state.rooms.filter(room => room.key !== snapshot.key)
       });
+      this.props.setDeletedRoomId(snapshot.key);
+      console.log("HERE'S THE SNAPSHOT KEY" + snapshot.key);
     });
   }
 
@@ -46,15 +45,15 @@ class RoomList extends React.Component {
     })
   }
 
-  deleteRoom = roomName => {
+  deleteRoom = room => {
     const newRoomsArray = [];
     this.state.rooms.map((room, i) => {
-      if (room.key != roomName.key) {
+      if (room.key != room.key) {
         newRoomsArray.push(room);
       }
     });
     this.setState({ rooms: newRoomsArray });
-    delete this.roomsRef[roomName.key]
+    this.roomsRef.child(room.key).remove();
   };
 
   handleRoomNameChange(e) {

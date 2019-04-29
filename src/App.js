@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./styles/App.css";
 // import styles from "./styles/Auth.css";
-import * as firebase from "firebase";
+import firebase from "firebase";
 import RoomList from "./components/RoomList";
 import MessageList from "./components/MessageList";
 import User from "./components/User";
@@ -26,8 +26,10 @@ class App extends Component {
       activeRoomId: "No room selected",
       currentUser: "Guest",
       isSignedIn: false,
-      activeUsers: []
+      activeUsers: [],
+      deletedRoomId: ""
     };
+    this.messagesRef = firebase.database().ref("messages");
   }
 
   uiConfig = {
@@ -46,8 +48,7 @@ class App extends Component {
 
 
   setActiveRoom = selectedRoom => {
-    this.setState({ activeRoom: selectedRoom.name });
-    this.setState({ activeRoomId: selectedRoom.key });
+    this.setState({ activeRoom: selectedRoom });
   };
 
   setUser = user => {
@@ -64,6 +65,12 @@ class App extends Component {
     })
   }
 
+  setDeletedRoomId = (roomId) => {
+    this.setState({ deletedRoomId: roomId});
+    console.log("VALUE BEING PASSED INTO SET DELETED ROOM ID" + roomId)
+    console.log("DELETED ROOM ID IN APP COMPONENT" + this.state.deletedRoomId);
+  }
+
   render() {
     return (
       <div className="App">
@@ -75,6 +82,8 @@ class App extends Component {
                   setActiveRoom={this.setActiveRoom}
                   activeRoom={this.state.activeRoom}
                   firebase={firebase}
+                  messagesRef={this.messagesRef}          
+                  setDeletedRoomId={this.setDeletedRoomId}        
                 />
               </div>
             </div>
@@ -95,6 +104,8 @@ class App extends Component {
                   activeRoomId={this.state.activeRoomId}
                   currentUser={this.state.currentUser}
                   firebase={firebase}
+                  messagesRef={this.messagesRef}     
+                  deletedRoom={this.state.deletedRoomId}             
                 />
               </div>
             </div>
