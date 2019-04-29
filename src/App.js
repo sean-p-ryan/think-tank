@@ -27,7 +27,7 @@ class App extends Component {
       currentUser: "Guest",
       isSignedIn: false,
       activeUsers: [],
-      deletedRoomId: ""
+      deletedRoomId: null
     };
     this.messagesRef = firebase.database().ref("messages");
   }
@@ -68,7 +68,17 @@ class App extends Component {
   setDeletedRoomId = (roomId) => {
     this.setState({ deletedRoomId: roomId});
     console.log("VALUE BEING PASSED INTO SET DELETED ROOM ID" + roomId)
-    console.log("DELETED ROOM ID IN APP COMPONENT" + this.state.deletedRoomId);
+    this.logDeletedRoom()
+  }
+
+  resetDeletedRoomState = () => {
+    this.setState({deletedRoomId: null})
+  }
+
+  logDeletedRoom = () => {
+    setTimeout(() => {
+      console.log('Alligator!!!!' + this.state.deletedRoomId);
+    }, 1000);
   }
 
   render() {
@@ -105,7 +115,8 @@ class App extends Component {
                   currentUser={this.state.currentUser}
                   firebase={firebase}
                   messagesRef={this.messagesRef}     
-                  deletedRoom={this.state.deletedRoomId}             
+                  deletedRoom={this.state.deletedRoomId}   
+                  resetDeletedRoomState={this.resetDeletedRoomState}          
                 />
               </div>
             </div>

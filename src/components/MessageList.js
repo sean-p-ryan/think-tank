@@ -22,10 +22,13 @@ class MessageList extends React.Component {
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat(message) });
     });
-    this.roomsRef.on("child_removed", () => {
-      this.getDeletedRoomMessages(this.props.deletedRoom);
-    })
     this.getActiveRoomMessages();
+  }
+
+  componentDidUpdate() {
+    if (this.props.deletedRoom != null) {
+      this.getDeletedRoomMessages(this.props.deletedRoom)
+    }
   }
 
   handleChange(e) {
@@ -36,11 +39,21 @@ class MessageList extends React.Component {
     if (this.props.activeRoom != null) {
       return this.state.messages
         .filter(message => message.roomId === this.props.activeRoom.key)
-        .map(message => (<li>{message.text}</li>))
+        .map(message => (
+          <li>
+            <span key={message.key}>{message.text}</span>
+            <button
+              onClick={() => {this.deleteMessage(message)}
+              }>
+              DELETE
+          </button>
+          </li>
+        ))
     }
   }
 
   deleteMessage = (messageToDelete) => {
+    console.log(this.props.deletedRoom);
     const newMessagesArray = [];
     this.state.messages.map((message, i) => {
       if (message.key != messageToDelete.key) {
@@ -48,25 +61,18 @@ class MessageList extends React.Component {
       }
     });
     this.setState({ messages: newMessagesArray });
+    this.props.messagesRef.child(messageToDelete.key).remove();
   }
 
   getDeletedRoomMessages = (roomId) => {
-    // console.log("yaas");
-    console.log("HERE ARE ALL THE MESSAGES" + this.state.messages);
-
-
-    console.log("SHOULD BE DELETED ROOM ID" + roomId);
-    
-
-    this.state.messages.map(message => {
-      console.log("should be message roomId" + message.roomId);
-      if (message.roomId === roomId) {
-        this.deleteMessage(message);
-        console.log("Messages array should be shorter" + this.state.messages)
-        // console.log(this.state.messages)
-        //take deleted message out of DB
-      }
-    })
+    if (this.props.deletedRoom != null) {
+      this.state.messages.map(message => {
+        if (message.roomId === roomId) {
+          this.deleteMessage(message);
+        }
+      })
+      this.props.resetDeletedRoomState();
+    };
   }
 
   //adding key values to each new message to be sent to database
