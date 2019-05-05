@@ -1,16 +1,32 @@
 .available-rooms {
-  background: #778899;
+  background: #b0c5d1;
 }
 
 .new-room-form {
-  background: #696969;
+  background: #b0c5d1;
+  /* border-right: 5px solid #000; */
+}
+
+.new-room-form form input {
+  margin-top: 10px;
 }
 
 .room-container {
   overflow: auto;
   height: 80vh;
+  /* border-right: 5px solid #000; */
 }
 
-h1 {
-  background-color: orange;
+.room-container a {
+  margin-top: 2rem;
+}
+
+.room-info {
+  margin-top: 1.5rem;
+}
+
+.room-list {
+  border-right: 5px solid #000;
+  height: 100%;
+  background: #b0c5d1;
 }

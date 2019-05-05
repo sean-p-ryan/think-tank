@@ -1,11 +1,10 @@
 .message-section-container{
   display: flex;
   flex-direction: column;
-  /* height: 100vh; */
 }
 
 .list-of-messages{
-  background-color: green;
+  background-color: #ef3824;
   height: 70vh;
   display: flex;
   align-items: left;

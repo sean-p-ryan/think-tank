@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import App from "./../App";
+import styles from "../styles/User.css";
 
 class User extends React.Component {
   constructor(props) {
@@ -28,11 +29,11 @@ class User extends React.Component {
       var key = childSnapshot.key;
       var childData = childSnapshot.val();
       if (childData != true
-          && childData != false
-          && childData != "Guest") {
-          allUserData.push(childData);
+        && childData != false
+        && childData != "Guest") {
+        allUserData.push(childData);
       }
-      this.setState({allActiveUsers: allUserData});
+      this.setState({ allActiveUsers: allUserData });
 
     });
   };
@@ -52,15 +53,16 @@ class User extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>Current User: {this.props.user}</div>
-        <button type="submit" onClick={this.signInWithPopup}>
-          Sign In
+      <div className="user-info">
+        <div className="current-user">Current User: {this.props.user}
+          <button type="submit" onClick={this.signInWithPopup}>
+            Sign In
         </button>
-        <button type="submit" onClick={this.signOutWithPopup}>
-          Sign Out
+          <button type="submit" onClick={this.signOutWithPopup}>
+            Sign Out
         </button>
-        <div>
+        </div>
+        <div className="active-users">
           Active users:{" "}
           {this.state.allActiveUsers.map(user => (
             <p>{user}</p>

@@ -72,6 +72,7 @@ class RoomList extends React.Component {
             <h1>Available Rooms</h1>
             <div className="room-container">
               {this.state.rooms.map((room, i) => (
+                <div className="room-info">
                 <a>
                   <p key={room.key} onClick={() => this.props.setActiveRoom(room)}>
                     Room name: {room.name}
@@ -86,6 +87,7 @@ class RoomList extends React.Component {
                     onClick={e => this.deleteRoom(room)}
                   />
                 </a>
+                </div>
               ))
               }
             </div>
