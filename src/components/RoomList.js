@@ -102,16 +102,16 @@ class RoomList extends React.Component {
               }}
             >
               <div>
-                <label htmlFor="roomName">Room Name: </label>
+                <label htmlFor="room-name">Room Name: </label>
                 <input
                   type="text"
-                  id="roomName"
+                  id="room-name"
                   value={this.state.newRoomName}
                   onChange={e => this.handleRoomNameChange(e)}
                 />
               </div>
               <div>
-                <label htmlFor="roomTopic">Room Topic: </label>
+                <label htmlFor="room-topic">Room Topic: </label>
                 <input
                   type="text"
                   id="roomTopic"

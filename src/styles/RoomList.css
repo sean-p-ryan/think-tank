@@ -2,7 +2,13 @@
   background: #b0c5d1;
 }
 
+label {
+  font-size: 10px;
+}
 
+.room-topic {
+
+}
 
 .new-room-form {
   background: #b0c5d1;
@@ -15,7 +21,7 @@
 
 .room-container {
   overflow: auto;
-  height: 80vh;
+  height: 70vh;
   /* border-right: 5px solid #000; */
 }
 
