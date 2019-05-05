@@ -61,7 +61,6 @@ class User extends React.Component {
         </div>
         <div className="active-users">
           <p>Active Users: {this.displayActiveUsers()}</p>
-          <p>Sean Ryan</p>
         </div>
       </div>
     );

@@ -37,7 +37,7 @@ h1 {
 }
 
 .auth-screen {
-  background-image: url("../images/login_background.jpg");
+  background-image: url("../images/login_screen_background.jpg");
   background-position: center;
   width: 100vw;
   background-size: cover;
@@ -48,13 +48,14 @@ h1 {
 
 .auth-text-and-buttons {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  padding-left: 25rem;
 }
 
 .firebase-auth {
-  margin: 0 auto;
+  margin: 4rem auto;
 }
 
 .user-info-and-messages {
