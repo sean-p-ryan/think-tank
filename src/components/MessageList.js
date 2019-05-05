@@ -41,12 +41,25 @@ class MessageList extends React.Component {
         .filter(message => message.roomId === this.props.activeRoom.key)
         .map(message => (
           <li>
-            <span key={message.key}>{message.text}</span>
-            <button
-              onClick={() => {this.deleteMessage(message)}
-              }>
-              DELETE
+            <span key={message.key}>
+              <p className="sent-by">
+                {message.username} says:
+            </p>
+              <p className="message-text">
+                {message.text}
+              </p>
+            </span>
+            <div className="timestamp-and-delete-button">
+              <p className="date-and-time-text">
+                Sent @ {message.sentTime} on {message.sentDate}
+              </p>
+              <button
+                onClick={() => { this.deleteMessage(message) }
+                }
+                className="delete-button">
+                Delete this message
           </button>
+            </div>
           </li>
         ))
     }
@@ -77,13 +90,29 @@ class MessageList extends React.Component {
 
   //adding key values to each new message to be sent to database
   createMessage(newMessage) {
+    let dateAndTime = new Date()
     this.props.messagesRef.push({
       text: this.state.newMessageText,
       roomId: this.props.activeRoom.key,
       username: this.props.currentUser ? this.props.currentUser : "Guest",
-      sendAt: this.props.firebase.database.ServerValue.TIMESTAMP
+      sentDate: dateAndTime.toLocaleDateString(),
+      sentTime: this.getTimeSent(dateAndTime)
     });
     this.setState({ newMessageText: "" })
+  }
+
+  getTimeSent(date) {
+    let hour;
+    let minutes = date.getMinutes();
+    let amPm;
+    if (date.getHours() > 12) {
+      hour = date.getHours() - 12;
+      amPm = "PM"
+    } else {
+      hour = date.getHours();
+      amPm = "AM"
+    }
+    return hour + ":" + minutes + " " + amPm;
   }
 
   render() {
@@ -93,7 +122,7 @@ class MessageList extends React.Component {
 
         <div className="message-section-container">
           <div className="active-room">
-            {this.props.activeRoom != null ? "You are currently in " + this.props.activeRoom.name : "No room has been selected"}
+            {this.props.activeRoom != null ? "#" + this.props.activeRoom.name : "No room has been selected"}
           </div>
           <div className="list-of-messages">
             <ul>
@@ -107,16 +136,20 @@ class MessageList extends React.Component {
                 this.createMessage(this.state.newMessageText);
               }}
             >
-              <div>
-                <input
+              <div className="message-text-field">
+                <textarea
                   type="text"
                   id="message-field"
+                  placeholder="Write a message"
+                  cols="50"
+                  rows="6"
                   value={this.state.newMessageText}
-                  onChange={e => this.handleChange(e)} />
+                  onChange={e => this.handleChange(e)}
+                />
                 <label htmlFor="message-field" />
                 <input
                   type="submit"
-                  value="Post Message" />
+                  value="Submit Message" />
               </div>
             </form>
           </div>

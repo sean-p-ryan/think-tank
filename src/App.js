@@ -98,7 +98,6 @@ class App extends Component {
               </div>
             </div>
             <div className="user-info-and-messages">
-              <div className="user-info">
                 <User
                   firebase={firebase}
                   setUser={this.setUser}
@@ -106,7 +105,6 @@ class App extends Component {
                   activeUsers={this.state.activeUsers}
                   addActiveUser={this.addActiveUser}
                 />
-              </div>
               <div className="message-list">
                 <MessageList
                   className="message-list"

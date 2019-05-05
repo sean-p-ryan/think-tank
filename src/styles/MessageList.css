@@ -3,15 +3,52 @@
   flex-direction: column;
 }
 
+.active-room {
+  font-size: 2.5rem;
+}
+
 .list-of-messages{
-  background-color: #ef3824;
+  background-color: #ddd;
   height: 70vh;
   display: flex;
   align-items: left;
 }
 
+.list-of-messages ul {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .list-of-messages li {
   list-style: none;
   text-align: left;
+  border-bottom: 1px solid black;
+  padding: 0 10px;
+}
+
+.message-text {
+  margin-top: 0.3rem;
+}
+
+.sent-by {
+  font-style: italic;
+}
+
+.timestamp-and-delete-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  font-family: 'Roboto Mono', monospace;
+}
+
+textarea {
+  margin-right: 1rem;
+}
+
+.message-text-field {
+  margin-top: 2rem;
 }
 

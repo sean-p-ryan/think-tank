@@ -1,16 +1,23 @@
 .user-info {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
     margin-top: 1rem;
 }
 
 .active-users {
-    
+    margin-right: 3rem;
 }
 
 .current-user {
-    margin-right: 7rem;
+    margin-left: 3rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.current-user button {
+    width: 50%;
+    margin: 0 auto;
 }

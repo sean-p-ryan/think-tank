@@ -9,8 +9,6 @@ class User extends React.Component {
       allActiveUsers: []
     };
     this.userRef = this.props.firebase.database().ref("users");
-    // this.messagesRef = this.props.firebase.database().ref("messages");
-    // this.roomsRef = this.props.firebase.database().ref("rooms");
   }
 
   componentDidMount = () => {
@@ -18,32 +16,34 @@ class User extends React.Component {
       this.props.setUser(user);
     });
     this.userRef.on("child_added", snapshot => {
-      this.getUserData(snapshot);
+      this.getActiveUsers(snapshot);
     });
   };
 
-  getUserData = snapshot => {
-    var allUserData = [];
-    snapshot.forEach((childSnapshot, i) => {
-      var userId = snapshot.key;
-      var key = childSnapshot.key;
-      var childData = childSnapshot.val();
-      if (childData != true
-        && childData != false
-        && childData != "Guest") {
-        allUserData.push(childData);
+  getActiveUsers = snapshot => {
+    let activeUserNames = [];
+    let userData = [];
+    userData.push(snapshot.val());
+    userData.map(user => {
+      if (user.isOnline === true) {
+        activeUserNames.push(user.userId);
       }
-      this.setState({ allActiveUsers: allUserData });
-
-    });
+    })
+    this.setState({ allActiveUsers: activeUserNames });
   };
+
+  displayActiveUsers() {
+    return this.state.allActiveUsers.map(user => (
+      <p>{user}</p>
+    ))
+  }
 
   signInWithPopup = () => {
     const provider = new this.props.firebase.auth.GoogleAuthProvider();
     this.props.firebase.auth().signInWithPopup(provider);
     this.userRef.push({
       isOnline: true,
-      userId: this.props.user
+      userName: this.props.user
     });
   };
 
@@ -55,18 +55,13 @@ class User extends React.Component {
     return (
       <div className="user-info">
         <div className="current-user">Current User: {this.props.user}
-          <button type="submit" onClick={this.signInWithPopup}>
-            Sign In
-        </button>
           <button type="submit" onClick={this.signOutWithPopup}>
             Sign Out
         </button>
         </div>
         <div className="active-users">
-          Active users:{" "}
-          {this.state.allActiveUsers.map(user => (
-            <p>{user}</p>
-          ))}
+          <p>Active Users: {this.displayActiveUsers()}</p>
+          <p>Sean Ryan</p>
         </div>
       </div>
     );
