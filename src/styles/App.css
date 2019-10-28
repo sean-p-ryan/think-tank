@@ -4,9 +4,11 @@
 }
 
 .App {
-  text-align: center;
-  display: flex;
-  flex-direction: row;
+  height: 100vh;
+}
+
+body {
+  width: 100vw;
   height: 100vh;
 }
 
@@ -15,19 +17,21 @@ h1 {
   font-size: 17px;
 }
 
-.user-view {
-  width: 100%;
+.user-view {  
   overflow-y: hidden;
   display: flex;
-  flex-direction: row;
+  flex-direction: row;  
+  height: 100vh;
 }
 
-.rooms-header {
-  font-size: 36px;
+.room-view {
+  width: 35vw;
+  height: 100vh;
+  display: flex;  
 }
 
 .room-list {
-  background-color: black;
+  background-color: black;   
 }
 
 .welcome-text {
@@ -37,7 +41,8 @@ h1 {
 }
 
 p {
-  font-size: 1  rem;
+  font-size: 0.8rem;
+  color: #000604;
 }
 
 .auth-screen {
@@ -65,8 +70,8 @@ p {
 .user-info-and-messages {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  background: #b0c5d1;
+  width: 65vw;  
+  background: #ffffff;
 }
 
 .user-info {

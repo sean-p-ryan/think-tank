@@ -1,7 +1,12 @@
-body {
-    font-family: 'Roboto Mono', monospace;
+* {
+    font-family: 'Nunito', sans-serif;
 }
 
 button {
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Nunito', sans-serif;
+    border-radius: 10px;
+    background: #EA2124;
+    font-size: 0.4rem;
+    height: 1.5rem;
+    color: #fff;
 }

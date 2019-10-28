@@ -7,6 +7,7 @@ const Message = (props) => {
         <p>Message </p>
         <p>Message text: {props.text}}</p>
         <input
+          className="input-form"
           type="button"
           value="Delete message"
           onClick={e => props.deleteMessage(props.message)}

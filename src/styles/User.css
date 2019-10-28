@@ -1,10 +1,11 @@
 .user-info {
+    background: #707070;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
-    margin-top: 1rem;
+    height: 85px;
 }
 
 .active-users {
@@ -12,9 +13,17 @@
 }
 
 .current-user {
-    margin-left: 3rem;
+    margin-left: 5%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+}
+
+.user-info {
+    color: #fff;
+}
+
+.sign-out-button {
+    display: none;
 }
 
 .current-user button {

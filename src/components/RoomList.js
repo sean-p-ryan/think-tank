@@ -66,26 +66,23 @@ class RoomList extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <div className="room-view">
+      <React.Fragment>        
           <div className="available-rooms">
-            <h1>Available Rooms</h1>
+            <div className="header">
+            <h1 className="rooms-header" >Available Rooms</h1>
+            </div>
             <div className="room-container">
               {this.state.rooms.map((room, i) => (
                 <div className="room-info">
                 <a>
-                  <p key={room.key} onClick={() => this.props.setActiveRoom(room)}>
-                    Room name: {room.name}
-                  </p>
+                  <h1 key={room.key} onClick={() => this.props.setActiveRoom(room)}>
+                    {room.name}
+                  </h1>
                   <p key={uuidv1()}>
-                    Room topic: {room.topic}
+                    {room.topic}
                   </p>
-                  <input
-                    className="delete-room"
-                    type="button"
-                    value="Delete this room"
-                    onClick={e => this.deleteRoom(room)}
-                  />
+                  <button onClick={e => this.deleteRoom(room)}>
+                    DELETE ROOM</button>
                 </a>
                 </div>
               ))
@@ -94,7 +91,7 @@ class RoomList extends React.Component {
           </div>
 
           <div className="new-room-form">
-            <h1>Add a new chatroom!</h1>
+            <h1>Add New Room</h1>
             <form
               onSubmit={e => {
                 e.preventDefault();
@@ -102,29 +99,33 @@ class RoomList extends React.Component {
               }}
             >
               <div>
-                <label htmlFor="room-name">Room Name: </label>
+                <label htmlFor="room-name"></label>
                 <input
                   type="text"
+                  placeholder="Room Name"
                   id="room-name"
                   value={this.state.newRoomName}
                   onChange={e => this.handleRoomNameChange(e)}
                 />
               </div>
               <div>
-                <label htmlFor="room-topic">Room Topic: </label>
+                <label htmlFor="room-topic"></label>
                 <input
+                placeholder="Room Topic"
                   type="text"
                   id="roomTopic"
                   value={this.state.newRoomTopic}
                   onChange={e => this.handleRoomTopicChange(e)}
                 />
-                <input
-                  type="submit"
-                  value="Create room!" />
+                <div>
+                  <button
+                  type="submit">
+                    CREATE!
+                  </button>
+                  </div>
               </div>
             </form>
-          </div>
-        </div>
+          </div>        
       </React.Fragment>
       );
     }

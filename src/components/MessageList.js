@@ -43,7 +43,7 @@ class MessageList extends React.Component {
           <li>
             <span key={message.key}>
               <p className="sent-by">
-                {message.username} says:
+                {message.username} SAYS:
             </p>
               <p className="message-text">
                 {message.text}
@@ -57,7 +57,7 @@ class MessageList extends React.Component {
                 onClick={() => { this.deleteMessage(message) }
                 }
                 className="delete-button">
-                Delete this message
+                DELETE MESSAGE
           </button>
             </div>
           </li>
@@ -122,7 +122,7 @@ class MessageList extends React.Component {
 
         <div className="message-section-container">
           <div className="active-room">
-            {this.props.activeRoom != null ? "#" + this.props.activeRoom.name : "No room has been selected"}
+            {this.props.activeRoom != null ? <h1 className="active-room-name">#{this.props.activeRoom.name} </h1>: "No room has been selected"}
           </div>
           <div className="list-of-messages">
             <ul>
@@ -147,9 +147,11 @@ class MessageList extends React.Component {
                   onChange={e => this.handleChange(e)}
                 />
                 <label htmlFor="message-field" />
-                <input
+                  <button
                   type="submit"
-                  value="Submit Message" />
+                  className="message-submit-button">
+                    SUBMIT!
+                  </button>
               </div>
             </form>
           </div>

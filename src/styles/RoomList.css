@@ -1,18 +1,41 @@
 .available-rooms {
-  background: #b0c5d1;
+  width: 100%;
+}
+
+.header {
+  background: #6189A4;
+  height: 85px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.available-rooms h1 {
+  color: #fff;
+  text-align: left;      
+}
+
+.room-info {
+  border-bottom: 1px solid #D3D3D3;
+}
+
+.room-info h1, p {
+  color: #000604;
+  margin-bottom: 0.8rem;
+}
+
+.room-info button {
+  margin-bottom: 0.8rem;
 }
 
 label {
   font-size: 10px;
 }
 
-.room-topic {
-
-}
-
 .new-room-form {
   background: #b0c5d1;
-  /* border-right: 5px solid #000; */
+  margin-left: 1rem;
 }
 
 .new-room-form form input {
@@ -29,12 +52,16 @@ label {
   margin-top: 2rem;
 }
 
-.room-info {
-  margin-top: 1.5rem;
+.rooms-header {
+  /* margin-top: 1.5rem; */
+  margin-left: 5%;
 }
 
-.room-list {
-  border-right: 5px solid #000;
-  height: 100%;
+.room-info {
+  margin: 0.4rem 1rem;
+}
+
+.room-list {  
   background: #b0c5d1;
+  width: 100%;
 }
