@@ -6,4 +6,10 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
+
+
 serviceWorker.unregister();
+
+let messageList = document.querySelector(".list-of-messages");
+
+console.log(messageList)

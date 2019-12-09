@@ -13,7 +13,7 @@
 }
 
 .list-of-messages{  
-  height: 400px;
+  height: 55vh;
   display: flex;
   align-items: left;
   overflow-y: scroll;
@@ -38,24 +38,27 @@
 
 .message-text {
   margin-top: 0.8rem;
-  font-size: 1.2rem;
+  font-size: 0.8rem;
 }
 
 .sent-by {
   font-style: bold;
   text-transform: uppercase;
+  font-size: 0.7rem;
 }
 
 .timestamp-and-delete-button {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 1rem 0;
+  align-items: center;
+  margin: 0.5rem 0;
   font-size: 0.8rem;
 }
 
 .message-field {
   position: fixed;
+  width: 65%;
   bottom: 0;
 }
 
@@ -68,6 +71,12 @@ textarea {
   margin-bottom: 0.3rem;
   display: flex;
   flex-direction: column;
+  height: 20vh;
+}
+
+.date-and-time-text {
+  font-size: 0.5rem;
+  font-style: italic;
 }
 
 .message-submit-button {

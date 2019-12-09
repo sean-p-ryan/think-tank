@@ -18,15 +18,24 @@
 
 .room-info {
   border-bottom: 1px solid #D3D3D3;
+  margin: 0;
+  padding: 0.2rem 0.5rem;
 }
 
 .room-info h1, p {
   color: #000604;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 
 .room-info button {
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.room-info:hover {
+  background-color: #D3D3D3;
+  transition-property: background-color;
+  transition-duration: 300ms;
+  cursor: pointer;
 }
 
 label {
@@ -36,6 +45,8 @@ label {
 .new-room-form {
   background: #b0c5d1;
   margin-left: 1rem;
+  position: fixed;
+    bottom: 27px;
 }
 
 .new-room-form form input {
@@ -44,8 +55,6 @@ label {
 
 .room-container {
   overflow: auto;
-  height: 70vh;
-  /* border-right: 5px solid #000; */
 }
 
 .room-container a {
@@ -55,10 +64,6 @@ label {
 .rooms-header {
   /* margin-top: 1.5rem; */
   margin-left: 5%;
-}
-
-.room-info {
-  margin: 0.4rem 1rem;
 }
 
 .room-list {  

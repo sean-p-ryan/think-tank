@@ -3,16 +3,19 @@ import App from "./../App";
 import styles from "./../styles/MessageList.css";
 import Message from "./Message";
 import { throws } from "assert";
+import ReactDOM from "react-dom";
 
 class MessageList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       messages: [],
-      newMessageText: ""
+      newMessageText: "",
+      scrollTop: 999
     };
     // change to messages ref
     this.roomsRef = this.props.firebase.database().ref("rooms");
+    this._input = React.createRef();
   }
 
   componentDidMount() {
@@ -23,16 +26,28 @@ class MessageList extends React.Component {
       this.setState({ messages: this.state.messages.concat(message) });
     });
     this.getActiveRoomMessages();
+    this.scrollIsAtBottom();
+    const messageBox = this._input.current;
+    console.log(messageBox.scrollTop);
+    console.log(messageBox.scrollHeight);
+    messageBox.scrollTop = messageBox.scrollHeight;
   }
 
   componentDidUpdate() {
     if (this.props.deletedRoom != null) {
-      this.getDeletedRoomMessages(this.props.deletedRoom)
+      this.getDeletedRoomMessages(this.props.deletedRoom);
     }
   }
 
   handleChange(e) {
     this.setState({ newMessageText: e.target.value });
+  }
+
+  scrollIsAtBottom() {
+    const messageBox = this._input.current;
+    console.log(messageBox.scrollTop);
+    console.log(messageBox.scrollHeight);
+    messageBox.scrollTop = messageBox.scrollHeight;
   }
 
   getActiveRoomMessages() {
@@ -42,30 +57,30 @@ class MessageList extends React.Component {
         .map(message => (
           <li>
             <span key={message.key}>
-              <p className="sent-by">
-                {message.username} SAYS:
-            </p>
-              <p className="message-text">
-                {message.text}
-              </p>
+              <div class="sender-and-button">
+                <p className="sent-by">{message.username} SAYS:</p>
+              </div>
+              <p className="message-text">{message.text}</p>
             </span>
             <div className="timestamp-and-delete-button">
               <p className="date-and-time-text">
                 Sent @ {message.sentTime} on {message.sentDate}
               </p>
               <button
-                onClick={() => { this.deleteMessage(message) }
-                }
-                className="delete-button">
-                DELETE MESSAGE
-          </button>
+                  onClick={() => {
+                    this.deleteMessage(message);
+                  }}
+                  className="delete-button"
+                >
+                  DELETE
+                </button>
             </div>
           </li>
-        ))
+        ));
     }
   }
 
-  deleteMessage = (messageToDelete) => {
+  deleteMessage = messageToDelete => {
     console.log(this.props.deletedRoom);
     const newMessagesArray = [];
     this.state.messages.map((message, i) => {
@@ -75,22 +90,22 @@ class MessageList extends React.Component {
     });
     this.setState({ messages: newMessagesArray });
     this.props.messagesRef.child(messageToDelete.key).remove();
-  }
+  };
 
-  getDeletedRoomMessages = (roomId) => {
+  getDeletedRoomMessages = roomId => {
     if (this.props.deletedRoom != null) {
       this.state.messages.map(message => {
         if (message.roomId === roomId) {
           this.deleteMessage(message);
         }
-      })
+      });
       this.props.resetDeletedRoomState();
-    };
-  }
+    }
+  };
 
   //adding key values to each new message to be sent to database
   createMessage(newMessage) {
-    let dateAndTime = new Date()
+    let dateAndTime = new Date();
     this.props.messagesRef.push({
       text: this.state.newMessageText,
       roomId: this.props.activeRoom.key,
@@ -98,7 +113,7 @@ class MessageList extends React.Component {
       sentDate: dateAndTime.toLocaleDateString(),
       sentTime: this.getTimeSent(dateAndTime)
     });
-    this.setState({ newMessageText: "" })
+    this.setState({ newMessageText: "" });
   }
 
   getTimeSent(date) {
@@ -107,25 +122,37 @@ class MessageList extends React.Component {
     let amPm;
     if (date.getHours() > 12) {
       hour = date.getHours() - 12;
-      amPm = "PM"
+      amPm = "PM";
     } else {
       hour = date.getHours();
-      amPm = "AM"
+      amPm = "AM";
     }
     return hour + ":" + minutes + " " + amPm;
   }
 
   render() {
+    const messageListStyle = {
+      scrollTop: "500"
+    };
+
     return (
-
       <React.Fragment>
-
         <div className="message-section-container">
           <div className="active-room">
-            {this.props.activeRoom != null ? <h1 className="active-room-name">#{this.props.activeRoom.name} </h1>: "No room has been selected"}
+            {this.props.activeRoom != null ? (
+              <h1 className="active-room-name">
+                #{this.props.activeRoom.name}{" "}
+              </h1>
+            ) : (
+              "No room has been selected"
+            )}
           </div>
-          <div className="list-of-messages">
-            <ul>
+          <div
+            className="list-of-messages"
+            style={this.messageListStyle}
+            ref={this._input}
+          >
+            <ul scrollTop={this.state.scrollTop}>
               {this.getActiveRoomMessages()}
             </ul>
           </div>
@@ -147,11 +174,9 @@ class MessageList extends React.Component {
                   onChange={e => this.handleChange(e)}
                 />
                 <label htmlFor="message-field" />
-                  <button
-                  type="submit"
-                  className="message-submit-button">
-                    SUBMIT!
-                  </button>
+                <button type="submit" className="message-submit-button">
+                  SUBMIT!
+                </button>
               </div>
             </form>
           </div>
@@ -159,6 +184,6 @@ class MessageList extends React.Component {
       </React.Fragment>
     );
   }
-};
+}
 
 export default MessageList;

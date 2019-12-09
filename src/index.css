@@ -10,3 +10,8 @@ button {
     height: 1.5rem;
     color: #fff;
 }
+
+button[type="submit"] {
+    background-color: green;
+    margin-top: 0.5rem;
+}

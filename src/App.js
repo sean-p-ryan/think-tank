@@ -5,7 +5,7 @@ import firebase from "firebase";
 import RoomList from "./components/RoomList";
 import MessageList from "./components/MessageList";
 import User from "./components/User";
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 var config = {
   apiKey: "AIzaSyBdrQEg21qF0an-VLNHwhs7qhQ4sDWQKpU",
@@ -29,8 +29,14 @@ class App extends Component {
       activeUsers: [],
       deletedRoomId: null
     };
-    this.messagesRef = firebase.database().ref("messages");
+    this.messagesRef = firebase.database().ref("messages");    
   }
+
+  componentDidMount = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ isSignedIn: !!user });
+    });    
+  };
 
   uiConfig = {
     signInFLow: "popup",
@@ -39,13 +45,12 @@ class App extends Component {
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.TwitterAuthProvider.PROVIDER_ID,
       firebase.auth.GithubAuthProvider.PROVIDER_ID,
-      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID
     ],
     callbacks: {
       signInSuccess: () => false
     }
   };
-
 
   setActiveRoom = selectedRoom => {
     this.setState({ activeRoom: selectedRoom });
@@ -57,34 +62,28 @@ class App extends Component {
 
   addActiveUser = newUser => {
     this.state.activeUsers.push(newUser.displayName);
-  }
+  };
 
-  componentDidMount = () => {
-    firebase.auth().onAuthStateChanged(user => {
-      this.setState({ isSignedIn: !!user })
-    })
-  }
-
-  setDeletedRoomId = (roomId) => {
-    this.setState({ deletedRoomId: roomId});
-    console.log("VALUE BEING PASSED INTO SET DELETED ROOM ID" + roomId)
-    this.logDeletedRoom()
-  }
+  setDeletedRoomId = roomId => {
+    this.setState({ deletedRoomId: roomId });
+    console.log("VALUE BEING PASSED INTO SET DELETED ROOM ID" + roomId);
+    this.logDeletedRoom();
+  };
 
   resetDeletedRoomState = () => {
-    this.setState({deletedRoomId: null})
-  }
+    this.setState({ deletedRoomId: null });
+  };
 
   logDeletedRoom = () => {
     setTimeout(() => {
-      console.log('Alligator!!!!' + this.state.deletedRoomId);
+      console.log("Alligator!!!!" + this.state.deletedRoomId);
     }, 1000);
-  }
+  };
 
   render() {
     return (
       <div className="App">
-        {this.state.isSignedIn ?
+        {this.state.isSignedIn ? (
           <div className="user-view">
             <div className="room-view">
               <div className="room-list">
@@ -92,19 +91,19 @@ class App extends Component {
                   setActiveRoom={this.setActiveRoom}
                   activeRoom={this.state.activeRoom}
                   firebase={firebase}
-                  messagesRef={this.messagesRef}          
-                  setDeletedRoomId={this.setDeletedRoomId}        
+                  messagesRef={this.messagesRef}
+                  setDeletedRoomId={this.setDeletedRoomId}
                 />
               </div>
             </div>
             <div className="user-info-and-messages">
-                <User
-                  firebase={firebase}
-                  setUser={this.setUser}
-                  user={this.state.currentUser}
-                  activeUsers={this.state.activeUsers}
-                  addActiveUser={this.addActiveUser}
-                />
+              <User
+                firebase={firebase}
+                setUser={this.setUser}
+                user={this.state.currentUser}
+                activeUsers={this.state.activeUsers}
+                addActiveUser={this.addActiveUser}
+              />
               <div className="message-list">
                 <MessageList
                   className="message-list"
@@ -112,22 +111,23 @@ class App extends Component {
                   activeRoomId={this.state.activeRoomId}
                   currentUser={this.state.currentUser}
                   firebase={firebase}
-                  messagesRef={this.messagesRef}     
-                  deletedRoom={this.state.deletedRoomId}   
-                  resetDeletedRoomState={this.resetDeletedRoomState}          
+                  messagesRef={this.messagesRef}
+                  deletedRoom={this.state.deletedRoomId}
+                  resetDeletedRoomState={this.resetDeletedRoomState}
                 />
               </div>
             </div>
           </div>
-          :
-          <div className="auth-screen" >
+        ) : (
+          <div className="auth-screen">
             <div className="auth-text-and-buttons">
               <div className="welcome-text">
-              <p>Welcome to Think Tank, the discussion plaform
-              dedicated to tackling only the headiest and loftiest of questions.
-
-              Please sign in to continue.</p> 
-            </div>
+                <p>
+                  Welcome to Think Tank, the discussion plaform dedicated to
+                  tackling only the headiest and loftiest of questions. Please
+                  sign in to continue.
+                </p>
+              </div>
               <div>
                 <StyledFirebaseAuth
                   uiConfig={this.uiConfig}
@@ -137,7 +137,7 @@ class App extends Component {
               </div>
             </div>
           </div>
-        }
+        )}
       </div>
     );
   }
