@@ -122,10 +122,11 @@ class App extends Component {
           <div className="auth-screen">
             <div className="auth-text-and-buttons">
               <div className="welcome-text">
+                <h2>
+                  WELCOME TO THINK TANK
+                </h2>
                 <p>
-                  Welcome to Think Tank, the discussion plaform dedicated to
-                  tackling only the headiest and loftiest of questions. Please
-                  sign in to continue.
+                  A chat application intended for only the headiest and loftiest of discussions. 
                 </p>
               </div>
               <div>

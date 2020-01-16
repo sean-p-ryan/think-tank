@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import App from "./../App";
 import styles from "./../styles/RoomList.css";
 
 const uuidv1 = require("uuid/v1");
@@ -67,7 +66,7 @@ class RoomList extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="available-rooms">
+        <div className="">
           <div className="header">
             <h1 className="rooms-header">Available Rooms</h1>
           </div>

@@ -1,9 +1,6 @@
-import React, { Component } from "react";
-import App from "./../App";
+import React from "react";
 import styles from "./../styles/MessageList.css";
-import Message from "./Message";
-import { throws } from "assert";
-import ReactDOM from "react-dom";
+
 
 class MessageList extends React.Component {
   constructor(props) {
@@ -18,8 +15,7 @@ class MessageList extends React.Component {
     this._input = React.createRef();
   }
 
-  componentDidMount() {
-    const dataSnapshot = this.props.firebase.database().ref("rooms");
+  componentDidMount() {    
     this.props.messagesRef.on("child_added", snapshot => {
       const message = snapshot.val();
       message.key = snapshot.key;

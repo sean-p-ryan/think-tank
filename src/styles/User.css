@@ -15,18 +15,18 @@
 .current-user {
     margin-left: 5%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .user-info {
     color: #fff;
 }
 
-.sign-out-button {
+/* .sign-out-button {
     display: none;
-}
+} */
 
 .current-user button {
     width: 50%;
-    margin: 0 auto;
+    margin: 5px 0;
 }

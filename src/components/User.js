@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import App from "./../App";
+import React from "react";
 import styles from "../styles/User.css";
 
 class User extends React.Component {
@@ -55,10 +54,10 @@ class User extends React.Component {
     return (
       <div className="user-info">
         <div className="current-user">
-          <h1 className="current-user-name">Current User:{" "}</h1> &nbsp; {this.props.user}
-          {/* <button className="sign-out-button" type="submit" onClick={this.signOutWithPopup}>
+          <h1 className="current-user-name">Current User:{" "} &nbsp; {this.props.user}</h1> 
+          <button className="sign-out-button" type="submit" onClick={this.signOutWithPopup}>
             Sign Out
-        </button> */}
+        </button>
         </div>
         <div className="active-users">
           <h1>Active Users: 1 {this.displayActiveUsers()}</h1>
