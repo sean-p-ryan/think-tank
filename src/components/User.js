@@ -53,14 +53,14 @@ class User extends React.Component {
   render() {
     return (
       <div className="user-info">
+        <div className="active-users">
+          <h1>Active Users: 1 {this.displayActiveUsers()}</h1>
+        </div>
         <div className="current-user">
           <h1 className="current-user-name">Current User:{" "} &nbsp; {this.props.user}</h1> 
           <button className="sign-out-button" type="submit" onClick={this.signOutWithPopup}>
             Sign Out
         </button>
-        </div>
-        <div className="active-users">
-          <h1>Active Users: 1 {this.displayActiveUsers()}</h1>
         </div>
       </div>
     );

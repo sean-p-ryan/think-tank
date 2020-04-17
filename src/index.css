@@ -4,11 +4,11 @@
 
 button {
     font-family: 'IBM Plex Serif', serif;
-    border-radius: 10px;
+    border-radius: 5px;
     background: #EA2124;
-    font-size: 0.4rem;
-    height: 1.5rem;
+    font-size: 0.7rem;
     color: #fff;
+    padding: 0.5rem;
 }
 
 button[type="submit"] {
