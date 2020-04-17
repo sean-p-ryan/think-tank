@@ -1,4 +1,4 @@
-##Think Tank
+## Think Tank
 
 This chat application allows users to log in, select an existing chat room, create new chat rooms, and post/delete messages.  Updates are reflected in real time. 
 
