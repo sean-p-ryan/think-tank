@@ -1,4 +1,4 @@
-This is a chat application in which users can log in, select an exicting chat room, create a new chat room, and post and delete messages with updates reflected in real time. 
+This chat application allows users to log in, select an existing chat room, create new chat rooms, and post/delete messages.  Updates are reflected in real time. 
 
 ![Alt text](https://www.seanpryan.dev/images/think-tank-11242019.png "Think Tank user homescreen")
 
