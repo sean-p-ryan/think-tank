@@ -41,7 +41,6 @@ class App extends Component {
   uiConfig = {
     signInFLow: "popup",
     signInOptions: [
-      // Leave the lines as is for the providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.TwitterAuthProvider.PROVIDER_ID,
       firebase.auth.GithubAuthProvider.PROVIDER_ID,
@@ -66,18 +65,11 @@ class App extends Component {
 
   setDeletedRoomId = (roomId) => {
     this.setState({ deletedRoomId: roomId });
-    console.log("VALUE BEING PASSED INTO SET DELETED ROOM ID" + roomId);
     this.logDeletedRoom();
   };
 
   resetDeletedRoomState = () => {
     this.setState({ deletedRoomId: null });
-  };
-
-  logDeletedRoom = () => {
-    setTimeout(() => {
-      console.log("Alligator!!!!" + this.state.deletedRoomId);
-    }, 1000);
   };
 
   render() {
