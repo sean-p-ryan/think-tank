@@ -72,6 +72,7 @@ textarea {
   display: flex;
   flex-direction: column;
   height: 20vh;
+  margin-right: 1.5rem;
 }
 
 .date-and-time-text {
@@ -82,5 +83,10 @@ textarea {
 .message-submit-button {
   width: 100px;
   margin-top: 0.8rem;
+}
+
+.sender-and-button {
+  display: flex;
+  justify-content: space-between;
 }
 

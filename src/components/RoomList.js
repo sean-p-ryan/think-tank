@@ -10,13 +10,13 @@ class RoomList extends React.Component {
       rooms: [],
       newRoomName: "",
       newRoomTopic: "",
-      roomId: ""
+      roomId: "",
     };
     this.roomsRef = this.props.firebase.database().ref("rooms");
   }
 
   componentDidMount() {
-    this.roomsRef.on("child_added", snapshot => {
+    this.roomsRef.on("child_added", (snapshot) => {
       const room = snapshot.val();
       room.key = snapshot.key;
       this.setState({ rooms: this.state.rooms.concat(room) });
@@ -24,9 +24,9 @@ class RoomList extends React.Component {
         this.props.setActiveRoom(room);
       }
     });
-    this.roomsRef.on("child_removed", snapshot => {
+    this.roomsRef.on("child_removed", (snapshot) => {
       this.setState({
-        rooms: this.state.rooms.filter(room => room.key !== snapshot.key)
+        rooms: this.state.rooms.filter((room) => room.key !== snapshot.key),
       });
       this.props.setDeletedRoomId(snapshot.key);
       console.log("HERE'S THE SNAPSHOT KEY" + snapshot.key);
@@ -36,15 +36,15 @@ class RoomList extends React.Component {
   createRooms(newRoomName, newRoomTopic) {
     this.roomsRef.push({
       name: newRoomName,
-      topic: newRoomTopic
+      topic: newRoomTopic,
     });
     this.setState({
       newRoomTopic: "",
-      newRoomName: ""
+      newRoomName: "",
     });
   }
 
-  deleteRoom = room => {
+  deleteRoom = (room) => {
     const newRoomsArray = [];
     this.state.rooms.map((room, i) => {
       if (room.key != room.key) {
@@ -66,23 +66,30 @@ class RoomList extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="">
-          <div className="header">
-            <h1 className="rooms-header">Available Rooms</h1>
-          </div>
+        <div>
+          <nav className="level header">
+            <div className="level-item has-text-left">
+              <div>
+                <p className="title level-left">Available Rooms</p>
+              </div>
+            </div>
+          </nav>
           {this.state.rooms.map((room, i) => (
-            <div className="room-container"
-                  onClick={() => this.props.setActiveRoom(room)}>
+            <div
+              className="room-container"
+              onClick={() => this.props.setActiveRoom(room)}
+            >
               <div className="room-info">
-                <a>
-                  <h1
-                    key={room.key}
+                <a className="room-info-container">
+                  <div>
+                    <h1 key={room.key}>{room.name}</h1>
+                    <p key={uuidv1()}>{room.topic}</p>
+                  </div>
+                  <button
+                    className="button is-small"
+                    onClick={(e) => this.deleteRoom(room)}
                   >
-                    {room.name}
-                  </h1>
-                  <p key={uuidv1()}>{room.topic}</p>
-                  <button onClick={e => this.deleteRoom(room)}>
-                    DELETE ROOM
+                    Delete
                   </button>
                 </a>
               </div>
@@ -93,32 +100,34 @@ class RoomList extends React.Component {
         <div className="new-room-form">
           <h1>Add New Room</h1>
           <form
-            onSubmit={e => {
+            onSubmit={(e) => {
               e.preventDefault();
               this.createRooms(this.state.newRoomName, this.state.newRoomTopic);
             }}
           >
             <div>
-              <label htmlFor="room-name"></label>
+              <label htmlFor="room-name" />
               <input
+                class="input is-small"
                 type="text"
                 placeholder="Room Name"
                 id="room-name"
                 value={this.state.newRoomName}
-                onChange={e => this.handleRoomNameChange(e)}
+                onChange={(e) => this.handleRoomNameChange(e)}
               />
             </div>
             <div>
-              <label htmlFor="room-topic"></label>
+              <label htmlFor="room-topic" />
               <input
+                class="input is-small"
                 placeholder="Room Topic"
                 type="text"
                 id="roomTopic"
                 value={this.state.newRoomTopic}
-                onChange={e => this.handleRoomTopicChange(e)}
+                onChange={(e) => this.handleRoomTopicChange(e)}
               />
               <div>
-                <button type="submit">CREATE!</button>
+                <button className="button is-primary is-small" type="submit">Create</button>
               </div>
             </div>
           </form>

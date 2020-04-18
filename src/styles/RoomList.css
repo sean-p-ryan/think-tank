@@ -7,8 +7,8 @@
   height: 85px;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   justify-content: center;
+  padding-top: 1.3rem;
 }
 
 .available-rooms h1 {
@@ -31,6 +31,12 @@
   margin-bottom: 0.4rem;
 }
 
+.room-info-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .room-info:hover {
   background-color: #D3D3D3;
   transition-property: background-color;
@@ -47,6 +53,7 @@ label {
   margin-left: 1rem;
   position: fixed;
     bottom: 27px;
+    width: 200px;
 }
 
 .new-room-form form input {

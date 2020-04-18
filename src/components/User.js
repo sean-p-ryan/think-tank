@@ -5,36 +5,34 @@ class User extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      allActiveUsers: []
+      allActiveUsers: [],
     };
     this.userRef = this.props.firebase.database().ref("users");
   }
 
   componentDidMount = () => {
-    this.props.firebase.auth().onAuthStateChanged(user => {
+    this.props.firebase.auth().onAuthStateChanged((user) => {
       this.props.setUser(user);
     });
-    this.userRef.on("child_added", snapshot => {
+    this.userRef.on("child_added", (snapshot) => {
       this.getActiveUsers(snapshot);
     });
   };
 
-  getActiveUsers = snapshot => {
+  getActiveUsers = (snapshot) => {
     let activeUserNames = [];
     let userData = [];
     userData.push(snapshot.val());
-    userData.map(user => {
+    userData.map((user) => {
       if (user.isOnline === true) {
         activeUserNames.push(user.userId);
       }
-    })
+    });
     this.setState({ allActiveUsers: activeUserNames });
   };
 
   displayActiveUsers() {
-    return this.state.allActiveUsers.map(user => (
-      <p>{user}</p>
-    ))
+    return this.state.allActiveUsers.map((user) => <p>{user}</p>);
   }
 
   signInWithPopup = () => {
@@ -42,7 +40,7 @@ class User extends React.Component {
     this.props.firebase.auth().signInWithPopup(provider);
     this.userRef.push({
       isOnline: true,
-      userName: this.props.user
+      userName: this.props.user,
     });
   };
 
@@ -52,16 +50,30 @@ class User extends React.Component {
 
   render() {
     return (
-      <div className="user-info">
-        <div className="active-users">
-          <h1>Active Users: 1 {this.displayActiveUsers()}</h1>
-        </div>
-        <div className="current-user">
-          <h1 className="current-user-name">Current User:{" "} &nbsp; {this.props.user}</h1> 
-          <button className="sign-out-button" type="submit" onClick={this.signOutWithPopup}>
-            Sign Out
-        </button>
-        </div>
+      <div class="user-info">
+        <nav class="level user-info-container">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Active Users:</p>
+              <p class="title">1</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Current User</p>
+              <p class="title">{this.props.user}</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <button
+              className="button is-warning is-small"
+              type="submit"
+              onClick={this.signOutWithPopup}
+            >
+              Sign Out
+            </button>
+          </div>
+        </nav>
       </div>
     );
   }

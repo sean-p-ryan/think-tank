@@ -13,7 +13,7 @@ var config = {
   databaseURL: "https://bloc-chat-react-3edc1.firebaseio.com",
   projectId: "bloc-chat-react-3edc1",
   storageBucket: "bloc-chat-react-3edc1.appspot.com",
-  messagingSenderId: "314608865092"
+  messagingSenderId: "314608865092",
 };
 
 firebase.initializeApp(config);
@@ -27,15 +27,15 @@ class App extends Component {
       currentUser: "Guest",
       isSignedIn: false,
       activeUsers: [],
-      deletedRoomId: null
+      deletedRoomId: null,
     };
-    this.messagesRef = firebase.database().ref("messages");    
+    this.messagesRef = firebase.database().ref("messages");
   }
 
   componentDidMount = () => {
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       this.setState({ isSignedIn: !!user });
-    });    
+    });
   };
 
   uiConfig = {
@@ -45,26 +45,26 @@ class App extends Component {
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.TwitterAuthProvider.PROVIDER_ID,
       firebase.auth.GithubAuthProvider.PROVIDER_ID,
-      firebase.auth.EmailAuthProvider.PROVIDER_ID
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
     ],
     callbacks: {
-      signInSuccess: () => false
-    }
+      signInSuccess: () => false,
+    },
   };
 
-  setActiveRoom = selectedRoom => {
+  setActiveRoom = (selectedRoom) => {
     this.setState({ activeRoom: selectedRoom });
   };
 
-  setUser = user => {
+  setUser = (user) => {
     this.setState({ currentUser: user.displayName });
   };
 
-  addActiveUser = newUser => {
+  addActiveUser = (newUser) => {
     this.state.activeUsers.push(newUser.displayName);
   };
 
-  setDeletedRoomId = roomId => {
+  setDeletedRoomId = (roomId) => {
     this.setState({ deletedRoomId: roomId });
     console.log("VALUE BEING PASSED INTO SET DELETED ROOM ID" + roomId);
     this.logDeletedRoom();
@@ -119,25 +119,23 @@ class App extends Component {
             </div>
           </div>
         ) : (
-          <div className="auth-screen">
-            <div className="auth-text-and-buttons">
-              <div className="welcome-text">
-                <h2>
-                  WELCOME TO THINK TANK
+          <section class="hero is-success is-fullheight">
+            <div class="hero-body">
+              <div class="container has-text-centered">
+                <h1 class="title">Think Tank</h1>
+                <h2 class="subtitle">
+                  A place to ponder lofty subjects with likeminded intellectuals
                 </h2>
-                <p>
-                  A chat application intended for only the headiest and loftiest of discussions. 
-                </p>
-              </div>
-              <div>
+                <div>
                 <StyledFirebaseAuth
                   uiConfig={this.uiConfig}
                   firebaseAuth={firebase.auth()}
                   className="firebase-auth"
                 />
               </div>
+              </div>
             </div>
-          </div>
+          </section>
         )}
       </div>
     );

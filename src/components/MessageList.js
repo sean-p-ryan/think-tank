@@ -1,22 +1,21 @@
 import React from "react";
 import styles from "./../styles/MessageList.css";
 
-
 class MessageList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       messages: [],
       newMessageText: "",
-      scrollTop: 999
+      scrollTop: 999,
     };
     // change to messages ref
     this.roomsRef = this.props.firebase.database().ref("rooms");
     this._input = React.createRef();
   }
 
-  componentDidMount() {    
-    this.props.messagesRef.on("child_added", snapshot => {
+  componentDidMount() {
+    this.props.messagesRef.on("child_added", (snapshot) => {
       const message = snapshot.val();
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat(message) });
@@ -49,34 +48,43 @@ class MessageList extends React.Component {
   getActiveRoomMessages() {
     if (this.props.activeRoom != null) {
       return this.state.messages
-        .filter(message => message.roomId === this.props.activeRoom.key)
-        .map(message => (
+        .filter((message) => message.roomId === this.props.activeRoom.key)
+        .map((message) => (
           <li>
-            <span key={message.key}>
-              <div class="sender-and-button">
-                <p className="sent-by">{message.username} SAYS:</p>
-              </div>
-              <p className="message-text">{message.text}</p>
-            </span>
-            <div className="timestamp-and-delete-button">
-              <p className="date-and-time-text">
-                Sent @ {message.sentTime} on {message.sentDate}
-              </p>
-              <button
-                  onClick={() => {
-                    this.deleteMessage(message);
-                  }}
-                  className="delete-button"
-                >
-                  DELETE
-                </button>
+            <div class="box">
+              <article class="media">
+                <div class="media-content">
+                  <div class="content">
+                    <span key={message.key}>
+                      <div class="sender-and-button">
+                        <div>
+                        <strong>{message.username}</strong>{" "}
+                        <small>
+                          @ {message.sentTime} on {message.sentDate}
+                        </small>
+                        </div>
+                        <button
+                          onClick={() => {
+                            this.deleteMessage(message);
+                          }}
+                          className="button is-small"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                      <p className="message-text" />
+                    </span>
+                    <p>{message.text}</p>
+                  </div>
+                </div>
+              </article>
             </div>
           </li>
         ));
     }
   }
 
-  deleteMessage = messageToDelete => {
+  deleteMessage = (messageToDelete) => {
     console.log(this.props.deletedRoom);
     const newMessagesArray = [];
     this.state.messages.map((message, i) => {
@@ -88,9 +96,9 @@ class MessageList extends React.Component {
     this.props.messagesRef.child(messageToDelete.key).remove();
   };
 
-  getDeletedRoomMessages = roomId => {
+  getDeletedRoomMessages = (roomId) => {
     if (this.props.deletedRoom != null) {
-      this.state.messages.map(message => {
+      this.state.messages.map((message) => {
         if (message.roomId === roomId) {
           this.deleteMessage(message);
         }
@@ -107,7 +115,7 @@ class MessageList extends React.Component {
       roomId: this.props.activeRoom.key,
       username: this.props.currentUser ? this.props.currentUser : "Guest",
       sentDate: dateAndTime.toLocaleDateString(),
-      sentTime: this.getTimeSent(dateAndTime)
+      sentTime: this.getTimeSent(dateAndTime),
     });
     this.setState({ newMessageText: "" });
   }
@@ -128,7 +136,7 @@ class MessageList extends React.Component {
 
   render() {
     const messageListStyle = {
-      scrollTop: "500"
+      scrollTop: "500",
     };
 
     return (
@@ -154,24 +162,25 @@ class MessageList extends React.Component {
           </div>
           <div className="message-field">
             <form
-              onSubmit={e => {
+              onSubmit={(e) => {
                 e.preventDefault();
                 this.createMessage(this.state.newMessageText);
               }}
             >
-              <div className="message-text-field">
+              <div className="message-text-field control">
                 <textarea
+                  className="textarea is-primary is-medium"
                   type="text"
                   id="message-field"
                   placeholder="Write a message"
-                  cols="50"
+                  cols="45"
                   rows="6"
                   value={this.state.newMessageText}
-                  onChange={e => this.handleChange(e)}
+                  onChange={(e) => this.handleChange(e)}
                 />
                 <label htmlFor="message-field" />
-                <button type="submit" className="message-submit-button">
-                  SUBMIT!
+                <button type="submit" className="message-submit-button button is-primary is-small">
+                  Submit
                 </button>
               </div>
             </form>
